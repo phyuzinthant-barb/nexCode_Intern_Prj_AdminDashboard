@@ -1,5 +1,5 @@
 import { Table } from "antd";
-import "./reports.css";
+import "../styles/reports.css";
 
 const StudentReportTable = () => {
   const dataSource = [

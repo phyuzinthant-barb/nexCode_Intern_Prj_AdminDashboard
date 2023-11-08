@@ -1,6 +1,6 @@
 import { Table } from 'antd';
-import './reports.css';
 import { Link } from 'react-router-dom';
+import "../styles/reports.css";
 
 const OverallReportTable = ({ selectedValue }) => {
   const getJavaProgrammingData = () => [

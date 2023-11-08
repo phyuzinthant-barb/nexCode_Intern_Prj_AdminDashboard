@@ -1,6 +1,6 @@
 import { CreateStuBtn, FilterStu, SearchStu, DisplayStuTable } from "../../features/index";
 import { Link } from "react-router-dom";
-import "./StudentPage.css";
+import "../styles/StudentPage.css";
 
 const StudentPage = () => {
   return (
