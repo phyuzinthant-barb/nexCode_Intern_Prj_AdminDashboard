@@ -1,0 +1,131 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter&family=Roboto+Condensed&display=swap");
+
+body {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  font-family: "Inter", sans-serif;
+}
+
+/* Header */
+.header {
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 32px;
+  margin: 40px 0px 0px 31px;
+  font-family: "Inter", sans-serif;
+  display: flex;
+}
+
+/* ant design table inital state */
+:where(.css-dev-only-do-not-override-xu9wm8).ant-table-wrapper .ant-table {
+  box-sizing: initial;
+  margin: initial;
+  padding: initial;
+  color: initial;
+  font-size: initial;
+  line-height: initial;
+  list-style: initial;
+  background: initial;
+  border-radius: initial;
+}
+
+:where(.css-dev-only-do-not-override-xu9wm8).ant-table-wrapper
+  .ant-table-container {
+  border-start-start-radius: initial;
+  border-start-end-radius: initial;
+}
+
+/* Pagination */
+.ant-table-wrapper .ant-table-pagination.ant-pagination {
+  margin-right: 31px;
+}
+
+/* input form  */
+.ant-input {
+  margin: initial;
+  font-family: initial;
+  border-radius: initial;
+  width: initial;
+  border-radius: 2px;
+  font-family: "Inter", sans-serif;
+}
+
+/* Add button */
+.create {
+  border-radius: 2px;
+  border: 1px;
+  padding: 8px 15px 8px 15px;
+  width: 150px;
+  height: 40px;
+  gap: 8px;
+  font-size: 14px;
+  line-height: 22px;
+  text-align: center;
+  font-family: "Inter", sans-serif;
+  margin: 32px;
+}
+
+/* Searchbox */
+.ant-input-search .ant-input-group .ant-input-affix-wrapper:not(:last-child),
+:where(.css-dev-only-do-not-override-xu9wm8).ant-input-search
+  > .ant-input-group
+  > .ant-input-group-addon:last-child
+  .ant-input-search-button {
+  border-start-start-radius: initial;
+  border-start-end-radius: initial;
+  border-end-end-radius: initial;
+  border-end-start-radius: initial;
+  border-radius: 2px;
+  height: 40px;
+}
+
+/* Searchbox placeholder */
+.ant-input-search .ant-input-group .ant-input-affix-wrapper:not(:last-child) {
+  width: 265px;
+}
+
+/* page-header */
+.add-page-header {
+  display: flex;
+  justify-content: space-between;
+  margin-right: 32px;
+}
+
+/* Selector ant design */
+.ant-select-show-search:where(
+    .css-dev-only-do-not-override-xu9wm8
+  ).ant-select:not(.ant-select-customize-input)
+  .ant-select-selector {
+  border-radius: initial;
+  width: initial;
+}
+
+/* Input Number ant design box */
+:where(.css-dev-only-do-not-override-xu9wm8).ant-input-number {
+  box-sizing: border-box;
+  margin: 0;
+  padding: initial;
+  color: rgba(0, 0, 0, 0.88);
+  font-family: initial;
+  text-align: start;
+  border-radius: initial;
+  outline: 0;
+  transition: all 0.2s linear;
+  appearance: textfield;
+}
+
+/* input time picker  */
+:where(.css-dev-only-do-not-override-xu9wm8).ant-picker {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 4px 11px 4px;
+  font-family: "Inter", sans-serif;
+  border-radius: initial;
+}
+
+/* header + button placement */
+.top-level {
+  display: flex;
+  margin-right: 32px;
+}

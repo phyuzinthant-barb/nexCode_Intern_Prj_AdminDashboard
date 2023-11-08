@@ -1,0 +1,56 @@
+/* Filter */
+.ant-btn-compact-item {
+  border-radius: 2px;
+  width: 112px;
+  height: 40px;
+}
+
+/* Student Table */
+.student-table > .ant-table-wrapper .ant-table {
+  font-family: "Inter", sans-serif;
+  font-size: 14px;
+  margin: 24px 29px 24px 31px;
+}
+
+.student-table > .ant-table-wrapper .ant-table-thead > tr > th {
+  text-align: center;
+}
+
+.student-table > .ant-table-wrapper .ant-table-tbody > tr > td:last-child,
+.student-table > .ant-table-wrapper .ant-table-tbody > tr > td:first-child {
+  text-align: center;
+}
+
+/* Action Button Design */
+.ant-space-gap-col-middle {
+  column-gap: initial;
+  column-gap: 8px;
+}
+
+.ant-btn-primary {
+  border-radius: 2px;
+}
+
+/* Student Form Box */
+.form-rectangle-box {
+  width: 1150px;
+  height: 478px;
+  flex-shrink: 0;
+  margin: auto;
+  margin-top: 36px;
+  border: 1px solid var(--neutral-4, #f0f0f0);
+  background: var(--neutral-2, #fafafa);
+}
+
+/* student form group */
+.form-rectangle-box > .student-form > .ant-form {
+  margin-top: 114px;
+}
+
+/* student form single input box  */
+#student-form_stuName.ant-input,
+#student-form_email,
+#student-form_phone,
+#student-form_courses {
+  width: 800px;
+}

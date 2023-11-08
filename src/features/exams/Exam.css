@@ -1,0 +1,117 @@
+.info-group {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.exam-info {
+  border: 1px solid #d9d9d9;
+  margin-right: 16px;
+  padding: 5px 8px;
+  text-align: center;
+}
+
+.exam-name,
+.publish-switch {
+  margin-bottom: 12px;
+}
+
+.view-questions-btn {
+  padding: 8px 12px;
+  height: 40px;
+  width: 149px;
+}
+
+.exam-form-rectangle-box {
+  width: 1172px;
+  height: 600px;
+  border: 1px solid #f0f0f0;
+  background: #fafafa;
+  margin: 36px 32px;
+}
+
+.exam-form {
+  margin-top: 82px;
+}
+
+.select-course
+  .ant-select-show-search:where(
+    .css-dev-only-do-not-override-xu9wm8
+  ).ant-select:not(.ant-select-customize-input)
+  .ant-select-selector {
+  border-radius: 2px;
+  width: 800px;
+}
+
+#exam-form_examName,
+#exam-form_description {
+  width: 800px;
+}
+
+/* .input-number-form .ant-form-item-control-input .ant-form-item-control-input-content .ant-input-number .ant-input-number-input-wrap {
+  width: 800px;
+} */
+
+:where(.css-dev-only-do-not-override-xu9wm8).input-number-form
+  .ant-input-number {
+  width: 800px;
+  border-radius: 2px;
+}
+
+:where(.css-dev-only-do-not-override-xu9wm8).time-picker .ant-picker {
+  width: 800px;
+  border-radius: 2px;
+}
+
+.add-question-container {
+  margin-top: 36px;
+  margin-bottom: 36px;
+}
+
+.add-question-form-list {
+  display: flex;
+  flex-direction: column;
+  width: 1170px;
+  margin-left: 32px;
+}
+
+/* question-card */
+.question-card {
+  margin-bottom: 32px;
+  border-radius: 2px;
+  border: 1px solid #f0f0f0;
+}
+
+:where(.css-dev-only-do-not-override-xu9wm8).ant-btn.ant-btn-block {
+  border-radius: 2px;
+}
+
+:where(.css-dev-only-do-not-override-xu9wm8).ant-card .ant-card-head {
+  background-color: #fafafa;
+  border-radius: 2px;
+}
+
+:where(.css-dev-only-do-not-override-xu9wm8).ant-card .ant-card-body {
+  background-color: #fff;
+}
+
+/* textarea box style */
+.question-textarea .ant-form-item-control-input,
+.question-textarea .ant-form-item-control-input-content,
+.question-textarea .ant-input {
+  width: 800px;
+  border-radius: 2px;
+}
+
+/* selector box  */
+.correct-ans-selector .ant-select-selector {
+  border-radius: 2px;
+}
+
+/* .correct-ans-selector  {
+  width: 800px;
+} */
+
+:where(.css-dev-only-do-not-override-xu9wm8).ant-form-item
+  .ant-form-item-control-input {
+  width: 800px;
+}

@@ -1,0 +1,32 @@
+/* ant design css properties */
+/* Sidebar */
+.ant-menu,
+.ant-menu-root,
+.ant-menu-inline,
+.ant-menu-dark {
+  background-color: #002766;
+  color: white;
+  display: inline-flex;
+  padding: 32px 0px 732px 0px;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Sidebar Content */
+span.ant-menu-title-content {
+  font-size: 16px;
+}
+
+/* Sidebar Icon */
+svg.MuiSvgIcon-root,
+.MuiSvgIcon-fontSizeMedium,
+.ant-menu-item-icon,
+.css-i4bv87-MuiSvgIcon-root {
+  width: 24px;
+  height: 24px;
+}
+
+:where(.css-dev-only-do-not-override-xu9wm8).ant-layout .ant-layout-sider {
+  min-height: 100vh;
+  background-color: #002766;
+}

@@ -1,0 +1,5 @@
+.search-course {
+  display: flex;
+  justify-content: end;
+  margin-right: 32px;
+}

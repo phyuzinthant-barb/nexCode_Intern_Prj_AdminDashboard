@@ -1,0 +1,55 @@
+.course-card {
+  display: flex;
+  justify-content: space-between;
+}
+
+.action {
+  align-self: center;
+}
+
+.title {
+  width: 600px;
+  text-align: justify;
+}
+
+.title > h4 {
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 28px;
+  font-family: "Inter", sans-serif;
+}
+
+.title > p {
+  font-weight: 400;
+  font-family: "Inter", sans-serif;
+  font-size: 14px;
+  line-height: 22px;
+}
+
+/* course form group */
+.course-form-rectangle-box > .course-form > .ant-form {
+  margin-top: 111px;
+  margin-right: 116px;
+}
+
+/* course form single input box  */
+#course-form_courseName.ant-input {
+  width: 800px;
+}
+
+.note-input .ant-form-item-control-input,
+.note-input .ant-form-item-control-input-content,
+.note-input .ant-input {
+  width: 800px;
+  height: 300px;
+}
+
+.course-form-rectangle-box {
+  width: 1150px;
+  height: 582px;
+  flex-shrink: 0;
+  margin: auto;
+  margin-top: 36px;
+  border: 1px solid var(--neutral-4, #f0f0f0);
+  background: var(--neutral-2, #fafafa);
+}

@@ -1,0 +1,65 @@
+.piechart-report {
+  width: 675px;
+  height: 280px;
+  margin-left: 100px;
+}
+
+.overall-report-table,
+.course-report-table {
+  margin: 32px;
+}
+
+:where(.css-dev-only-do-not-override-xu9wm8).ant-table-wrapper
+  .ant-table-container
+  table
+  > thead
+  > tr:first-child
+  > *:first-child {
+  border-start-start-radius: initial;
+  border-radius: 2px;
+}
+
+:where(.css-dev-only-do-not-override-xu9wm8).ant-table-wrapper
+  .ant-table-container
+  table
+  > thead
+  > tr:last-child
+  > *:last-child {
+  border-start-start-radius: initial;
+  border-radius: 2px;
+}
+
+.overall-report-table > .ant-table-wrapper .ant-table-thead > tr > th,
+.course-report-table > .ant-table-wrapper .ant-table-thead > tr > th,
+.student-report-table > .ant-table-wrapper .ant-table-thead > tr > th {
+  text-align: center;
+}
+
+.overall-report-table
+  > .ant-table-wrapper
+  .ant-table-tbody
+  > tr
+  > td:nth-child(2) {
+  text-align: left;
+}
+
+.overall-report-table > .ant-table-wrapper .ant-table-tbody > tr > td,
+.course-report-table > .ant-table-wrapper .ant-table-tbody > tr > td  {
+  text-align: center;
+}
+
+.course-report-table > .ant-table-wrapper .ant-table-tbody > tr > td:nth-child(2),
+.course-report-table > .ant-table-wrapper .ant-table-tbody > tr > td:nth-child(3),
+.course-report-table > .ant-table-wrapper .ant-table-tbody > tr > td:nth-child(4) {
+  text-align: left;
+}
+
+.student-report-table {
+  width: 1143px;
+  margin: 36px 30px;
+}
+
+.student-report-table > .ant-table-wrapper .ant-table-tbody > tr > td:first-child,
+.student-report-table > .ant-table-wrapper .ant-table-tbody > tr > td:nth-child(5) {
+  text-align: center;
+}

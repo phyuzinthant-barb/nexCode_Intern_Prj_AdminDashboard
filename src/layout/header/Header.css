@@ -1,0 +1,61 @@
+/* ant design css properties */
+/* Header style */
+.ant-layout-header {
+  padding: 0px 32px 0px 32px;
+  background-color: #002766;
+  display: flex;
+  height: 76px;
+  justify-content: space-between;
+}
+
+/* Profile dropdown group */
+.ant-dropdown-trigger {
+  align-self: center;
+  color: white;
+}
+
+/* Admin Profile Avatar */
+.ant-avatar,
+.ant-avatar-circle,
+.ant-avatar-icon {
+  background-color: white;
+  color: #002766;
+}
+
+/* eduzone Logo */
+.logo {
+  align-self: center;
+  font-family: Inter;
+  font-size: 30px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 40px;
+}
+
+.e {
+  color: #d3adf7;
+}
+
+.d {
+  color: #722ed1;
+}
+
+.u {
+  color: #69c0ff;
+}
+
+.z {
+  color: #52c41a;
+}
+
+.o {
+  color: #ffec3d;
+}
+
+.n {
+  color: #fa8c16;
+}
+
+.ee {
+  color: #f5222d;
+}
