@@ -1,6 +1,6 @@
 import { DownOutlined, UserOutlined } from "@ant-design/icons";
 import { Dropdown, message } from "antd";
-import './Students.css'
+import "../styles/Students.css";
 
 const FilterBox = () => {
   const handleButtonClick = (e) => {

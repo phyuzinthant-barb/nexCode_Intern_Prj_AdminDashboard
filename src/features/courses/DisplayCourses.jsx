@@ -1,7 +1,7 @@
 import { Card, Button, Space } from "antd";
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import { Link } from "react-router-dom";
-import "./Courses.css";
+import "../styles/Courses.css";
 
 const DisplayCourses = () => {
   return (

@@ -1,5 +1,5 @@
 import { Pie } from "@ant-design/plots";
-import './reports.css';
+import "../styles/reports.css";
 
 const ReportPieChart = ({ selectedValue }) => {
 

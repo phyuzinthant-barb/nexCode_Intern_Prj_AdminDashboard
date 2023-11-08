@@ -1,6 +1,6 @@
 import { Form, Input, Radio, Select, InputNumber, TimePicker } from "antd";
 import { useState } from "react";
-import "./Exam.css";
+import "../styles/Exam.css";
 
 const AddExam = ({ formRef, onFinish, form }) => {
   // Validate Message

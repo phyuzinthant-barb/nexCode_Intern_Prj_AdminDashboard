@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import './report.css';
 import { ReportHeader, ReportFilter } from '../../components';
 import { ReportPieChart, OverallReportTable, CourseReportTable } from '../../features';
+import "../styles/report.css";
 
 const ReportDashboardPage = () => {
   const [selectedValue, setSelectedValue] = useState('Overall Course Report');

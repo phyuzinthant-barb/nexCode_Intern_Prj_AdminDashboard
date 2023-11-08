@@ -1,6 +1,6 @@
 import { Table, Space, Button } from "antd";
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
-import "./Students.css";
+import "../styles/Students.css";
 import { Link } from "react-router-dom";
 
 const StudentTable = () => {

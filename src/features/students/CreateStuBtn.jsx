@@ -1,5 +1,5 @@
 import { Button } from "antd";
-import "./Students.css";
+import "../styles/Students.css";
 
 const CreateButton = () => {
 

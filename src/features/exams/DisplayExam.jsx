@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Card, Button, Space, Switch } from "antd";
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import { Link } from "react-router-dom";
-import "./Exam.css";
+import "../styles/Exam.css";
 
 const DisplayExam = () => {
   const [isSwitchOn, setIsSwitchOn] = useState(false);
