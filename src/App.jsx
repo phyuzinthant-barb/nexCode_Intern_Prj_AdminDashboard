@@ -1,4 +1,5 @@
 import MainLayout from "./layout/MainLayout";
+import AuthLayout from "./layout/auth/AuthLayout";
 import { Routes, Route } from "react-router-dom";
 import {
   StudentDashboardPage,
@@ -14,11 +15,25 @@ import {
   ExamReportPage,
   StudentReportPage,
   CourseReportPage,
+  SignInPage,
+  ForgotPasswordPage,
+  VerifyOTPPage,
+  ChangePwdPage
 } from "./pages/index";
 
 const App = () => {
   return (
     <Routes>
+      <Route path="sign-in" element={<AuthLayout />}>
+        <Route index element={<SignInPage />} />
+        <Route path="forgot-password">
+          <Route index element={<ForgotPasswordPage />} />
+          <Route path="verify-otp">
+            <Route index element={<VerifyOTPPage />} />
+            <Route path="change-password" element={<ChangePwdPage />} />
+          </Route>
+        </Route>
+      </Route>
       <Route path="/" element={<MainLayout />}>
         <Route index element={<StudentDashboardPage />} />
         <Route path="addStu" element={<AddStudentPage />} />
@@ -37,7 +52,7 @@ const App = () => {
         </Route>
         <Route path="reports">
           <Route index element={<ReportDashboardPage />} />
-          <Route path=":courseId" element={<CourseReportPage />} /> 
+          <Route path=":courseId" element={<CourseReportPage />} />
           <Route path="examReport/:examId" element={<ExamReportPage />} />
           <Route path="studentReport/:stuId" element={<StudentReportPage />} />
         </Route>

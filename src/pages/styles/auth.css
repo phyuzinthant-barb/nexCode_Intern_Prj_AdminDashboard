@@ -1,0 +1,75 @@
+.auth-background {
+  display: flex;
+}
+
+.sign-in-form {
+  width: 400px;
+  display: flex;
+  margin-top: 10%;
+  height: 400px;
+  float: inline-end;
+  margin-right: 113px;
+}
+
+.sign-in-submit-btn {
+  width: 400px;
+}
+
+.sign-in-header {
+  font-size: 32px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 36px;
+}
+
+.forgot-pwd {
+  text-decoration: underline;
+  float: right;
+}
+
+:where(.css-dev-only-do-not-override-2i2tap).ant-form-item
+  .ant-form-item-control:first-child:not([class^="'ant-col-'"]):not(
+    [class*="' ant-col-'"]
+  ) {
+  min-width: 400px;
+}
+
+.forgot-pwd-description {
+  color: #545f71;
+  margin-bottom: 33px;
+}
+
+.otp-form input {
+  width: 48px !important;
+  height: 48px;
+  border-radius: 6px;
+  text-align: center;
+  margin-right: 22px;
+  font-size: 14px;
+}
+
+.otp-resent {
+  text-align: center;
+  margin-top: 16px;
+}
+
+.otp-resent > a {
+  text-decoration: underline;
+}
+
+
+.sign-in :where(.css-dev-only-do-not-override-xu9wm8).ant-form-item .ant-form-item-control-input {
+  width: 400px;
+}
+
+.sign-in :where(.css-dev-only-do-not-override-xu9wm8).ant-input-affix-wrapper {
+  border-radius: 2px;
+}
+
+/* .ant-form-item-control-input-content{
+ max-width: 400px;
+} */
+
+.ant-input{
+  width: 100% !important;
+}
