@@ -12,6 +12,7 @@ const AddQuestionPage = () => {
 
   const onFinish = () => {
     const values = form.getFieldsValue();
+    console.log('add questioin page' , values);
     if (!Object.values(values).includes(undefined)) {
       return navigate("/exams");
     }
@@ -30,7 +31,6 @@ const AddQuestionPage = () => {
           <Button
             onClick={() => {
               form.submit();
-              onFinish();
             }}
             htmlType="submit"
             type="primary"

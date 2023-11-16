@@ -18,3 +18,9 @@ export { default as ReportDashboardPage } from "./reports/ReportDashboardPage";
 export { default as ExamReportPage } from "./reports/ExamReportPage";
 export { default as StudentReportPage } from "./reports/StudentReportPage";
 export { default as CourseReportPage } from "./reports/CourseReportPage";
+
+//auth page
+export { default as SignInPage } from "./auth/SignInPage";
+export { default as ForgotPasswordPage } from "./auth/ForgotPasswordPage";
+export { default as VerifyOTPPage } from "./auth/VerifyOTPPage";
+export { default as ChangePwdPage } from "./auth/ChangePwdPage";
