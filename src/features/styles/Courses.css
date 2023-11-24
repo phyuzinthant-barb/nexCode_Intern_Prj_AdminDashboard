@@ -1,3 +1,4 @@
+/* display card design */
 .course-card {
   display: flex;
   justify-content: space-between;
@@ -52,4 +53,14 @@
   margin-top: 36px;
   border: 1px solid var(--neutral-4, #f0f0f0);
   background: var(--neutral-2, #fafafa);
+}
+
+/* course card design */
+.card-design {
+  width: 1150px;
+  height: 582px;
+  flex-shrink: 0;
+  margin: auto;
+  margin-top: 36px;
+  margin-bottom: 36px;
 }

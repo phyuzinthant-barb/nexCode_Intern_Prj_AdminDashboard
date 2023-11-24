@@ -7,7 +7,7 @@ const StudentPage = () => {
     <>
       <div className="top-level">
         <h3 className="header">Students</h3>
-        <Link to="addStu">
+        <Link to="add-student">
           <CreateStuBtn />
         </Link>
       </div>

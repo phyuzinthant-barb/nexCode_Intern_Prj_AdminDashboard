@@ -18,11 +18,13 @@ import {
   SignInPage,
   ForgotPasswordPage,
   VerifyOTPPage,
-  ChangePwdPage
+  ChangePwdPage,
 } from "./pages/index";
+import RequireAuth from "./features/auth/requireAuth";
 
 const App = () => {
   return (
+    // <BrowserRouter>
     <Routes>
       <Route path="sign-in" element={<AuthLayout />}>
         <Route index element={<SignInPage />} />
@@ -34,10 +36,19 @@ const App = () => {
           </Route>
         </Route>
       </Route>
-      <Route path="/" element={<MainLayout />}>
-        <Route index element={<StudentDashboardPage />} />
-        <Route path="addStu" element={<AddStudentPage />} />
-        <Route path="editStu" element={<EditStudentPage />} />
+      {/* <Route element={<RequireAuth />}> */}
+      <Route
+        path="/"
+        element={
+          <RequireAuth>
+            <MainLayout />
+          </RequireAuth>
+        }>
+        <Route path="stu-dashboard">
+          <Route index element={<StudentDashboardPage />} />
+          <Route path="add-student" element={<AddStudentPage />} />
+          <Route path="edit-student/:studentId" element={<EditStudentPage />} />
+        </Route>
         <Route path="courses">
           <Route index element={<CourseDashboard />} />
           <Route path="addCourse" element={<AddCoursePage />} />
@@ -54,10 +65,12 @@ const App = () => {
           <Route index element={<ReportDashboardPage />} />
           <Route path=":courseId" element={<CourseReportPage />} />
           <Route path="examReport/:examId" element={<ExamReportPage />} />
-          <Route path="studentReport/:stuId" element={<StudentReportPage />} />
+          <Route path="studentReport/:studentId" element={<StudentReportPage />} />
         </Route>
       </Route>
+      {/* </Route> */}
     </Routes>
+    // </BrowserRouter>
   );
 };
 

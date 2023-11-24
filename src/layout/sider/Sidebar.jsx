@@ -22,13 +22,7 @@ const Sidebar = () => {
       <Sider
         className="side-bar"
         breakpoint="md"
-        collapsedWidth="0"
-        onBreakpoint={(broken) => {
-          console.log(broken);
-        }}
-        onCollapse={(collapsed, type) => {
-          console.log(collapsed, type);
-        }}>
+        collapsedWidth="0">
         <div className="demo-logo-vertical" />
         <Menu
           theme="dark"
@@ -37,7 +31,7 @@ const Sidebar = () => {
           onClick={handleClick}
           items={[
             {
-              key: "",
+              key: "stu-dashboard",
               icon: <Diversity3 />,
               label: "Students",
             },

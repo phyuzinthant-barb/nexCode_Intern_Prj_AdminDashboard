@@ -23,3 +23,4 @@ export { default as OverallReportTable } from "./reports/OverallReportTable";
 export { default as CourseReportTable } from "./reports/CourseReportTable";
 export { default as StudentReportTable } from "./reports/StudentReportTable";
 export { default as ExamReportTable } from "./reports/ExamReportTable";
+
