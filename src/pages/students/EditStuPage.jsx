@@ -4,7 +4,6 @@ import { ArrowLeftOutlined } from "@ant-design/icons";
 import { AddStu } from "../../features/index";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import {
-  useGetStudentByIdQuery,
   useEditStudentMutation,
 } from "../../features/students/studentApi";
 import { useSelector } from "react-redux";
@@ -12,7 +11,6 @@ import { useSelector } from "react-redux";
 const EditStuPage = () => {
   const { studentId } = useParams();
   const navigate = useNavigate();
-  // console.log(studentId);
   const token = useSelector((state) => state.authSlice.token);
   const [form] = Form.useForm();
   const ref = useRef();
@@ -21,8 +19,12 @@ const EditStuPage = () => {
   const {
     data: studentData,
     isLoading,
-    isError,
+    refetch,
   } = useGetStudentByIdQuery({ studentId, token });
+
+  useEffect(() => {
+    refetch();
+  }, [refetch, token]);
 
   const [editStudentMutation, { error: editError }] =
     useEditStudentMutation(token);
@@ -54,16 +56,8 @@ const EditStuPage = () => {
         studentId,
         updatedData: {
           ...values,
-          // courses: courseIds,
         },
       });
-      // console.log({
-      //   studentId,
-      //   updatedData: {
-      //     ...values,
-      //     courses: courseIds,
-      //   },
-      // });
   
       if (data) {
         message.success("Student edited successfully");

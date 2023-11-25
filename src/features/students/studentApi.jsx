@@ -41,13 +41,16 @@ export const studentApi = baseApi.injectEndpoints({
       invalidatesTags: ["user"],
     }),
 
-    getStudentsByCourseId: builder.query({
-      query: ({ courseId }) => ({
-        url: `${endPoint}/filter?id=${courseId}`,
-        method: "GET",
+    deleteStudent: builder.mutation ({
+      query: ({studentId}) => ({
+        url: `${endPoint}/${studentId}`,
+        method: "DELETE",
       }),
-      invalidatesTags: ["user"],
-    }),
+      onError: (error) => {
+        console.error("Delete Student Failed:" , error)
+      },
+      invalidatesTags: ["user"]
+    })
   }),
 });
 
@@ -55,6 +58,5 @@ export const {
   useGetAllStudentsQuery,
   useAddNewStudentMutation,
   useEditStudentMutation,
-  useGetStudentByIdQuery,
-  useGetStudentsByCourseIdQuery
+  useDeleteStudentMutation
 } = studentApi;

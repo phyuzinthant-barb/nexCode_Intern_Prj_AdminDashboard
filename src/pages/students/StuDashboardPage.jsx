@@ -1,8 +1,24 @@
-import { CreateStuBtn, FilterStu, SearchStu, DisplayStuTable } from "../../features/index";
+import {
+  CreateStuBtn,
+  FilterStu,
+  SearchStu,
+  DisplayStuTable,
+} from "../../features/index";
 import { Link } from "react-router-dom";
 import "../styles/StudentPage.css";
+import { useState, useEffect } from "react";
 
 const StudentPage = () => {
+  const [selectedCourseId, setSelectedCourseId] = useState();
+
+  const handleCourseChange = (selectedCourseId) => {
+    setSelectedCourseId(selectedCourseId);
+  };
+
+  // useEffect(() => {
+  //   console.log(selectedCourseId);
+  // }, [selectedCourseId]);
+
   return (
     <>
       <div className="top-level">
@@ -12,11 +28,11 @@ const StudentPage = () => {
         </Link>
       </div>
       <div className="functionBlock">
-        <FilterStu />
+        <FilterStu onCourseChange={handleCourseChange} />
         <SearchStu />
       </div>
       <div className="stuTable">
-        <DisplayStuTable />
+        <DisplayStuTable selectedCourseId={selectedCourseId} />
       </div>
     </>
   );
