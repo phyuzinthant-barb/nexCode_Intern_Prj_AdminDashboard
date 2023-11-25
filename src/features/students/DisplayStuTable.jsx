@@ -1,23 +1,52 @@
-import { Table, Space,Modal, Button, Tag } from "antd";
+import { Table, Space, Modal, Button, Tag } from "antd";
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import "../styles/Students.css";
 import { Link } from "react-router-dom";
-import { useGetAllStudentsQuery } from "./studentApi";
+import { useGetAllStudentsQuery, useDeleteStudentMutation } from "./studentApi";
 import { useSelector } from "react-redux";
 import { useEffect, useMemo } from "react";
-import { ExclamationCircleFilled } from '@ant-design/icons';
+import { ExclamationCircleFilled } from "@ant-design/icons";
+import { useGetStudentsByCourseIdQuery } from "../courses/courseApi";
 
-const StudentTable = () => {
+const StudentTable = ({ selectedCourseId }) => {
   const token = useSelector((state) => state.authSlice.token);
   const {
     data: studentsData,
-    isLoading,
-    refetch,
+    isLoading: isLoadingAllStudents,
+    refetch: refetchAllStudents,
   } = useGetAllStudentsQuery(token);
 
   useEffect(() => {
-    refetch();
-  }, [refetch, token]);
+    console.log("course id", selectedCourseId);
+    // if (selectedCourseId) {
+      // const {
+      //   data: studentsByCourse,
+      //   isLoading: isLoadingByCourse,
+      //   refetch: refetchByCourse,
+      // } = useGetStudentsByCourseIdQuery(selectedCourseId, token);
+    // }
+  }, [selectedCourseId]);
+
+  const {
+    data: studentsByCourse,
+    isLoading: isLoadingByCourse,
+    refetch: refetchByCourse,
+  } = useGetStudentsByCourseIdQuery(selectedCourseId, token);
+
+  console.log("student data", studentsByCourse);
+
+  const { mutate: deleteStudent } = useDeleteStudentMutation(token);
+
+  const handleDeleteStudent = (studentId) => {
+    deleteStudent(studentId);
+  };
+
+  useEffect(() => {
+    refetchAllStudents();
+    // refetchByCourse();
+  }, [refetchAllStudents, token]);
+
+  const isLoading = isLoadingAllStudents;
 
   const fixedColors = ["geekblue", "green", "red", "yellow", "purple"];
 
@@ -37,7 +66,9 @@ const StudentTable = () => {
 
   const courseColorMap = useMemo(() => {
     const uniqueCourses = new Set(
-      (studentsData || []).flatMap((item) => item.courses.map((course) => course.id))
+      (studentsData || []).flatMap((item) =>
+        item.courses.map((course) => course.id)
+      )
     );
     const colorMap = {};
     Array.from(uniqueCourses).forEach((courseId, index) => {
@@ -45,7 +76,6 @@ const StudentTable = () => {
     });
     return colorMap;
   }, [studentsData]);
-  
 
   const dataWithSerialNumbers = (studentsData || []).map((item, index) => ({
     ...item,
@@ -56,20 +86,19 @@ const StudentTable = () => {
 
   const handleClick = () => {
     confirm({
-      title: 'Are you sure delete this student?',
+      title: "Are you sure delete this student?",
       icon: <ExclamationCircleFilled />,
-      okText: 'Yes',
-      okType: 'danger',
-      cancelText: 'No',
+      okText: "Yes",
+      okType: "danger",
+      cancelText: "No",
       onOk() {
-        console.log('OK');
+        console.log("OK");
       },
       onCancel() {
-        console.log('Cancel');
+        console.log("Cancel");
       },
     });
   };
-  
 
   const columns = [
     {

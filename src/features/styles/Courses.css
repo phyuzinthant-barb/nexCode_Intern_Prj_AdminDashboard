@@ -53,6 +53,10 @@
   margin-top: 36px;
   border: 1px solid var(--neutral-4, #f0f0f0);
   background: var(--neutral-2, #fafafa);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 /* course card design */

@@ -1,31 +1,12 @@
 import { Form, Input } from "antd";
 
-const AddCourse = ({ formRef, onFinish }) => {
-  const validateMessages = {
-    required: "${label} is required!",
-  };
+const AddCourse = () => {
 
   return (
     <div className="course-form-rectangle-box">
-      <div className="course-form">
-        <Form
-          name="course-form"
-          ref={formRef}
-          labelCol={{
-            span: 6,
-          }}
-          wrapperCol={{
-            span: 16,
-          }}
-          style={{
-            width: '800',
-          }}
-          validateMessages={validateMessages}
-          onFinish={onFinish}
-          autoComplete="off">
           <Form.Item
             label="Course Name"
-            name="courseName"
+            name="name"
             rules={[
               {
                 required: true,
@@ -47,9 +28,7 @@ const AddCourse = ({ formRef, onFinish }) => {
             ]}>
             <Input.TextArea placeholder="Please input the course description." />
           </Form.Item>
-        </Form>
       </div>
-    </div>
   );
 };
 

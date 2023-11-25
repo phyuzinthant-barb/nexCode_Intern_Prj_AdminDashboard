@@ -3,13 +3,16 @@ import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import { Link } from "react-router-dom";
 import { useGetAllCoursesQuery } from "./courseApi";
 import { useSelector } from "react-redux";
+import { useEffect } from "react";
 import "../styles/Courses.css";
 
 const DisplayCourses = () => {
   const token = useSelector((state) => state.authSlice.token);
-  const { data: courses, isLoading, error } = useGetAllCoursesQuery(token);
+  const { data: courses, isLoading, error, refetch } = useGetAllCoursesQuery(token);
 
-  console.log("Courses:", courses);
+  useEffect(() => {
+    refetch();
+  }, [refetch, token]);
 
   if (error) {
     console.error("Error fetching courses:", error);

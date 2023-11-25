@@ -1,48 +1,37 @@
-import React from "react";
+import React, { useState } from "react";
 import { Select } from "antd";
-const App = () => {
+import { useSelector } from "react-redux";
+import { useGetAllCoursesQuery } from "../courses/courseApi";
+
+const App = ({onCourseChange}) => {
+  const token = useSelector((state) => state.authSlice.token);
+
+  const { data: courses = [], isLoading: isLoadingCourses } = useGetAllCoursesQuery(token);
+
+  const handleCourseChange = (value) => {
+    onCourseChange(value);
+    console.log(value);
+  };
+
   return (
     <div className="filter-course">
       <Select
-        showSearch
-        style={{
-          width: 200,
-        }}
-        placeholder="Select Course"
-        optionFilterProp="children"
-        filterOption={(input, option) => (option?.label ?? "").includes(input)}
-        filterSort={(optionA, optionB) =>
-          (optionA?.label ?? "")
-            .toLowerCase()
-            .localeCompare((optionB?.label ?? "").toLowerCase())
-        }
-        options={[
-          {
-            value: "1",
-            label: "Not Identified",
-          },
-          {
-            value: "2",
-            label: "Closed",
-          },
-          {
-            value: "3",
-            label: "Communicated",
-          },
-          {
-            value: "4",
-            label: "Identified",
-          },
-          {
-            value: "5",
-            label: "Resolved",
-          },
-          {
-            value: "6",
-            label: "Cancelled",
-          },
-        ]}
-      />
+         showSearch
+         placeholder="Select Course"
+         optionFilterProp="children"
+         filterOption={(input, option) => option.children.toLowerCase().includes(input.toLowerCase())}
+         onChange={handleCourseChange}
+      >
+        {isLoadingCourses ? (
+          <Select.Option value="" disabled>Loading...</Select.Option>
+        ) : (
+          courses.map((course) => (
+            <Select.Option key={course.id} value={course.id}>
+              {course.name}
+            </Select.Option>
+          ))
+        )}
+      </Select>
     </div>
   );
 };
