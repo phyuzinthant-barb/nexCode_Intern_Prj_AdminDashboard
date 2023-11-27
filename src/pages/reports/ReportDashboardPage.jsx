@@ -1,34 +1,27 @@
-import { useState } from 'react';
-import { ReportHeader, ReportFilter } from '../../components';
-import { ReportPieChart, OverallReportTable, CourseReportTable } from '../../features';
+import { ReportPieChart, OverallReportTable } from "../../features";
 import "../styles/report.css";
+import { Breadcrumb } from "antd";
 
 const ReportDashboardPage = () => {
-  const [selectedValue, setSelectedValue] = useState('Overall Course Report');
-
-  const handleSelect = (value) => {
-    setSelectedValue(value);
-  };
 
   return (
     <>
-      <div className="top-level report">
-        <h3 className="header">
-          <ReportHeader selectedValue={selectedValue} />
-        </h3>
-        <div className="filter">
-          <ReportFilter handleSelect={handleSelect} selectedValue={selectedValue} />
-        </div>
+    <Breadcrumb
+            style={{
+              margin: '32px 29px 0px 29px',
+              fontSize: '14px',
+            }}
+          >
+            <Breadcrumb.Item>Overall Courses Report</Breadcrumb.Item>
+          </Breadcrumb>
+      <div className="report">
+        <h3 className="report-header">Overall Courses Report</h3>
       </div>
       <div className="bi-report">
-        <ReportPieChart selectedValue={selectedValue} />
+        <ReportPieChart />
       </div>
       <div className="table">
-        {selectedValue === 'Overall Course Report' ? (
-          <OverallReportTable selectedValue={selectedValue} />
-        ) : (
-          <CourseReportTable selectedValue={selectedValue} />
-        )}
+        <OverallReportTable />
       </div>
     </>
   );

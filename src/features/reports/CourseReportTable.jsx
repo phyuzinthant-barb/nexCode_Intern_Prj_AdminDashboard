@@ -1,9 +1,10 @@
-import { Table } from 'antd';
+import { Table, Space, Button } from 'antd';
 import { Link } from 'react-router-dom';
+import { EyeOutlined } from "@ant-design/icons";
 import "../styles/reports.css";
 
-const OverallReportTable = ({ selectedValue }) => {
-  const getJavaProgrammingData = () => [
+const CourseReportTable = () => {
+  const dataSource = [
     {
       key: 1,
       examName: 'Exam 1',
@@ -22,78 +23,6 @@ const OverallReportTable = ({ selectedValue }) => {
     },
   ];
 
-  const getReactJSData = () => [
-    {
-      key: 3,
-      examName: 'Redux',
-      level: 'basic',
-      examStartDate: '2023-11-10',
-      inprogressStudents: '10',
-      completedStudents: '79',
-    },
-    {
-      key: 4,
-      examName: 'React Router',
-      level: 'intermediate',
-      examStartDate: '2023-11-10',
-      inprogressStudents: '33',
-      completedStudents: '56',
-    },
-  ];
-
-  const getUIData = () => [
-    {
-      key: 5,
-      examName: 'UI exam 1',
-      level: 'Advanced',
-      examStartDate: '2023-11-10',
-      inprogressStudents: '40',
-      completedStudents: '39',
-    },
-    {
-      key: 6,
-      examName: 'UI exam 2',
-      level: 'intermediate',
-      examStartDate: '2023-11-10',
-      inprogressStudents: '22',
-      completedStudents: '57',
-    },
-  ];
-
-  const getUXData = () => [
-    {
-      key: 7,
-      examName: 'UX exam 1',
-      level: 'Advanced',
-      examStartDate: '2023-11-10',
-      inprogressStudents: '3',
-      completedStudents: '47',
-    },
-    {
-      key: 8,
-      examName: 'UX exam 2',
-      level: 'intermediate',
-      examStartDate: '2023-11-10',
-      inprogressStudents: '44',
-      completedStudents: '6',
-    },
-  ];
-
-  const dataSource = (() => {
-    switch (selectedValue) {
-      case 'Java-Programming':
-        return getJavaProgrammingData();
-      case 'React JS':
-        return getReactJSData();
-      case 'UI':
-        return getUIData();
-      case 'UX':
-        return getUXData();
-      default:
-        return [];
-    }
-  })();
-
   const dataWithSerialNumbers = dataSource.map((item, index) => ({
     ...item,
     serialNumber: index + 1,
@@ -109,7 +38,6 @@ const OverallReportTable = ({ selectedValue }) => {
       title: 'Exam Name',
       dataIndex: 'examName',
       key: 'examName',
-      render: (text) => <Link to='examReport'>{text}</Link>,
     },
     {
       title: 'Level',
@@ -131,6 +59,23 @@ const OverallReportTable = ({ selectedValue }) => {
       dataIndex: 'completedStudents',
       key: 'completedStudents',
     },
+    {
+      title: "View Detail",
+      key: "action",
+      render: (text, record) => (
+        <Space size="middle">
+          <Link
+            to={{
+              pathname: `/reports/examReport/${record.examName}`,
+              state: { ...record },
+            }}>
+            <Button type="primary">
+              <EyeOutlined />
+            </Button>
+          </Link>
+        </Space>
+      ),
+    },
   ];
 
   return (
@@ -140,4 +85,4 @@ const OverallReportTable = ({ selectedValue }) => {
   );
 };
 
-export default OverallReportTable;
+export default CourseReportTable;

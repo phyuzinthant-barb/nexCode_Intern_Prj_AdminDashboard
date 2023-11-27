@@ -1,14 +1,28 @@
-import { Button, Form, Input } from "antd";
+import { Button, Form, Input, message } from "antd";
 import "../styles/auth.css";
 import { Link, useNavigate } from "react-router-dom";
+import { useForgotPasswordMutation } from "../../features/auth/authApi";
+import { useLocation } from "react-router-dom";
 
 const App = () => {
   const navigate = useNavigate();
+  const currentRoute = useLocation().pathname;
+  const [forgotPasswordMutation] = useForgotPasswordMutation();
 
-  const onFinish = (values) => {
-    console.log("Success:", values);
-    navigate("/sign-in/forgot-password/verify-otp");
+  const onFinish = async (values) => {
+    try {
+      await forgotPasswordMutation(values);
+      message.success('Verification code sent successfully!');
+      navigate('/sign-in/forgot-password/verify-otp', {
+        replace: true,
+        state: {email: values.email, previousRoute: currentRoute},
+    });
+    } catch (error) {
+      console.error('Forgot password error:', error);
+      message.error('Failed to send verification code. Please try again.');
+    }
   };
+
 
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);

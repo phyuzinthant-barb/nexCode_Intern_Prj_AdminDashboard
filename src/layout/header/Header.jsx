@@ -1,4 +1,4 @@
-import { Layout, Dropdown, Space, Avatar } from "antd";
+import { Layout, Dropdown, Space, Avatar, Modal } from "antd";
 import {
   EditOutlined,
   LogoutOutlined,
@@ -6,10 +6,24 @@ import {
   DownOutlined,
 } from "@ant-design/icons";
 import "./Header.css";
+import { useState } from "react";
+import { logoutAccount } from "../../features/auth/authSlice";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const { Header } = Layout;
 
 const App = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const LogoutModalForm = ({ visible, handleOk, handleCancel }) => (
+    <Modal title="Are you sure to logout?" open={visible} onOk={handleOk} onCancel={handleCancel}>
+    </Modal>
+  );
+
+  const [logoutModalVisible, setLogoutModalVisible] = useState(false);
+
   const items = [
     {
       label: (
@@ -21,13 +35,18 @@ const App = () => {
     },
     {
       label: (
-        <a>
+        <a onClick={() => setLogoutModalVisible(true)}>
           <LogoutOutlined /> Log out
         </a>
       ),
       key: "1",
     },
   ];
+
+  const handleLogoutModalClose = () => {
+    dispatch(logoutAccount());
+    navigate("/sign-in", {replace: true});
+  };
 
   return (
     <Layout>
@@ -57,6 +76,11 @@ const App = () => {
           </a>
         </Dropdown>
       </Header>
+      <LogoutModalForm
+        visible={logoutModalVisible}
+        handleOk={handleLogoutModalClose}
+        handleCancel={handleLogoutModalClose}
+      />
     </Layout>
   );
 };

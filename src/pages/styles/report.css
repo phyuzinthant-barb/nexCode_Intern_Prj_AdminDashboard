@@ -3,8 +3,13 @@
   margin-top: 32px;
 }
 
-.report {
-  justify-content: space-between;
+.report-header {
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 32px;
+  margin: 32px 29px;
+  font-family: "Inter", sans-serif;
+  display: flex;
 }
 
 .filter
@@ -16,11 +21,11 @@
   border-radius: 2px;
 }
 
-.bi-report{
+.bi-report {
   width: 1173px;
   height: 350px;
-  border: 1px solid var(--cool-gray-20, #DDE1E6);
-  background: var(--default-white, #FFF);
+  border: 1px solid var(--cool-gray-20, #dde1e6);
+  background: var(--default-white, #fff);
   margin-top: 32px;
   margin-left: 32px;
   padding: 32px;

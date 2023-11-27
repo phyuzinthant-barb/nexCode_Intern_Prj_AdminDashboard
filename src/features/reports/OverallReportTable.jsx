@@ -1,5 +1,7 @@
-import { Table } from "antd";
+import { Table, Button, Space } from "antd";
 import "../styles/reports.css";
+import { Link } from "react-router-dom";
+import { EyeOutlined } from "@ant-design/icons";
 
 const OverallReportTable = () => {
   const dataSource = [
@@ -64,11 +66,28 @@ const OverallReportTable = () => {
       dataIndex: "completeStu",
       key: "completeStu",
     },
+    {
+      title: "View Detail",
+      key: "action",
+      render: (text, record) => (
+        <Space size="middle">
+          <Link
+            to={{
+              pathname: `/reports/${record.course}`,
+              state: { ...record },
+            }}>
+            <Button type="primary">
+              <EyeOutlined />
+            </Button>
+          </Link>
+        </Space>
+      ),
+    },
   ];
 
   return (
     <div className="overall-report-table">
-      <Table dataSource={dataWithSerialNumbers} columns={columns}/>
+      <Table dataSource={dataWithSerialNumbers} columns={columns} />
     </div>
   );
 };

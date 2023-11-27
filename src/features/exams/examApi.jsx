@@ -12,7 +12,15 @@ export const examApi = baseApi.injectEndpoints({
       transformResponse: (response) => response,
       invalidatesTags: ["exam"],
     }),
+
+    addNewExam: builder.mutation({
+      query: () => ({
+        url: `${endPoint}`,
+        method: "POST",
+      }),
+      invalidatesTags:["exam"],
+    })
   }),
 });
 
-export const { useGetAllExamsQuery } = examApi;
+export const { useGetAllExamsQuery, useAddNewExamMutation } = examApi;

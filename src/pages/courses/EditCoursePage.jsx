@@ -48,6 +48,10 @@ const EditCoursePage = () => {
       const {data, error } = await editCourseMutation({
         courseId,
         updatedData: values,
+      }, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
       });
       if(data) {
         message.success("Course edited successfully.");

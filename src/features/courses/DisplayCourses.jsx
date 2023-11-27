@@ -1,38 +1,66 @@
 import { Card, Button, Space } from "antd";
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import { Link } from "react-router-dom";
-import { useGetAllCoursesQuery } from "./courseApi";
+import { useGetAllCoursesQuery, useSearchCourseByNameQuery } from "./courseApi"; // Update the path
 import { useSelector } from "react-redux";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import "../styles/Courses.css";
 
-const DisplayCourses = () => {
+const DisplayCourses = ({ searchTerm }) => {
   const token = useSelector((state) => state.authSlice.token);
-  const { data: courses, isLoading, error, refetch } = useGetAllCoursesQuery(token);
+  const {
+    data: allCourses,
+    isLoading: allCoursesLoading,
+    error: allCoursesError,
+    refetch: refetchAllCourses,
+  } = useGetAllCoursesQuery(token);
+  
+  const {
+    data: searchResults,
+    isLoading: searchLoading,
+    error: searchError,
+    refetch: refetchSearchResults,
+  } = useSearchCourseByNameQuery({ courseName: searchTerm });
 
   useEffect(() => {
-    refetch();
-  }, [refetch, token]);
+    refetchAllCourses();
+    // if (searchTerm) {
+    //   refetchSearchResults({ courseName: searchTerm });
+    // }
+  }, [refetchAllCourses, token]);
 
-  if (error) {
-    console.error("Error fetching courses:", error);
+  // searchTerm refetchSearchResults
+  // console.log("All Courses:", allCourses);
+  // console.log("Search Results:", searchResults);
+
+  useEffect(()=> {
+    if(searchTerm) {
+      refetchSearchResults({courseName: searchTerm});
+    }
+  }, [refetchSearchResults, token, searchTerm])
+
+  if (allCoursesError || searchError) {
+    console.error("Error fetching courses:", allCoursesError || searchError);
   }
+
+  const coursesToDisplay = searchTerm ? searchResults : allCourses;
+  // console.log("Courses to Display:", coursesToDisplay);
+  // console.log("Course length", coursesToDisplay.length);
 
   return (
     <div className="card-design">
-      {isLoading ? (
+      {allCoursesLoading || searchLoading ? (
         <p>Loading...</p>
       ) : (
         <div>
-          {Array.isArray(courses) && courses.length > 0 ? (
-            courses.map((course) => (
+          {coursesToDisplay.length > 0 ? (
+            coursesToDisplay.map((course) => (
               <Card
                 key={course.id}
                 style={{
                   margin: "16px 0",
                   borderRadius: "2px",
-                }}
-              >
+                }}>
                 <div className="course-card">
                   <div className="title">
                     <h4>{course.name}</h4>

@@ -1,8 +1,17 @@
+// CourseDashboardPage.js
+import React, { useState } from "react";
 import { CreateCourses, SearchCourses, DisplayCourses } from "../../features/index";
 import { Link } from "react-router-dom";
 import "./CoursePage.css";
 
 const CourseDashboardPage = () => {
+  const [searchTerm, setSearchTerm] = useState('');
+
+  const handleSearch = (term) => {
+    setSearchTerm(term);
+    console.log(term);
+  };
+
   return (
     <>
       <div className="top-level">
@@ -13,10 +22,10 @@ const CourseDashboardPage = () => {
       </div>
 
       <div className="search-course">
-        <SearchCourses />
+        <SearchCourses onSearch={handleSearch} />
       </div>
       <div>
-        <DisplayCourses />
+        <DisplayCourses searchTerm={searchTerm} />
       </div>
     </>
   );

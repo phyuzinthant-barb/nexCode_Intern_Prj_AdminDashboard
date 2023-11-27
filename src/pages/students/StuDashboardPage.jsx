@@ -15,9 +15,9 @@ const StudentPage = () => {
     setSelectedCourseId(selectedCourseId);
   };
 
-  // useEffect(() => {
-  //   console.log(selectedCourseId);
-  // }, [selectedCourseId]);
+  useEffect(() => {
+    console.log(selectedCourseId);
+  }, [selectedCourseId]);
 
   return (
     <>

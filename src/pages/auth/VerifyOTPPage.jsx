@@ -1,11 +1,16 @@
 import { Button, Form } from "antd";
 import "../styles/auth.css";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import OTPInput from "react-otp-input";
 import { useState } from "react";
 
 const App = () => {
   const navigate = useNavigate();
+  // const { email, previousRoute } = useLocation().state;
+  const [otp, setOtp] = useState("");
+  // const [isResent, setIsResent] = useState(false);
+  // const [timer, setTimer] = useState(59);
+  // const [isSubmitting, setIsSubmitting] = useState(false);
 
   const onFinish = (values) => {
     console.log("Success:", values);
@@ -15,8 +20,6 @@ const App = () => {
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
   };
-
-  const [otp, setOtp] = useState("");
 
   return (
     <div className="sign-in-form">

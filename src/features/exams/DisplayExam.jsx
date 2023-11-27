@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Card, Button, Space, Switch } from "antd";
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import { Link } from "react-router-dom";
@@ -8,13 +8,17 @@ import "../styles/Exam.css";
 
 const DisplayExam = () => {
   const token = useSelector((state) => state.authSlice.token);
-  const { data: exams, isLoading, error } = useGetAllExamsQuery(token);
+  const { data: exams, isLoading, error,refetch } = useGetAllExamsQuery(token);
 
-  console.log("exams:", exams);
+  // console.log("exams:", exams);
 
   if (error) {
     console.error("Error fetching exams:", error);
   }
+
+  useEffect(() => {
+    refetch();
+  }, [refetch, token]);
 
   const [isSwitchOn, setIsSwitchOn] = useState(false);
   const [initialButtonsShown, setInitialButtonsShown] = useState(true);

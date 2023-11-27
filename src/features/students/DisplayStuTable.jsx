@@ -4,7 +4,7 @@ import "../styles/Students.css";
 import { Link } from "react-router-dom";
 import { useGetAllStudentsQuery, useDeleteStudentMutation } from "./studentApi";
 import { useSelector } from "react-redux";
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { ExclamationCircleFilled } from "@ant-design/icons";
 import { useGetStudentsByCourseIdQuery } from "../courses/courseApi";
 
@@ -17,29 +17,35 @@ const StudentTable = ({ selectedCourseId }) => {
   } = useGetAllStudentsQuery(token);
 
   useEffect(() => {
-    console.log("course id", selectedCourseId);
+    // console.log("course id", selectedCourseId);
     // if (selectedCourseId) {
-      // const {
-      //   data: studentsByCourse,
-      //   isLoading: isLoadingByCourse,
-      //   refetch: refetchByCourse,
-      // } = useGetStudentsByCourseIdQuery(selectedCourseId, token);
+    // const {
+    //   data: studentsByCourse,
+    //   isLoading: isLoadingByCourse,
+    //   refetch: refetchByCourse,
+    // } = useGetStudentsByCourseIdQuery(selectedCourseId, token);
     // }
   }, [selectedCourseId]);
 
-  const {
-    data: studentsByCourse,
-    isLoading: isLoadingByCourse,
-    refetch: refetchByCourse,
-  } = useGetStudentsByCourseIdQuery(selectedCourseId, token);
+  // const {
+  //   data: studentsByCourse,
+  //   isLoading: isLoadingByCourse,
+  //   refetch: refetchByCourse,
+  // } = useGetStudentsByCourseIdQuery(selectedCourseId, token);
 
-  console.log("student data", studentsByCourse);
+  // console.log("student data", studentsByCourse);
 
-  const { mutate: deleteStudent } = useDeleteStudentMutation(token);
+  const [deleteStudent] = useDeleteStudentMutation(token);
 
-  const handleDeleteStudent = (studentId) => {
-    deleteStudent(studentId);
-  };
+  // const deleteHandler = (studentId) => {
+  //   deleteStudent(studentId);
+  // };
+
+  const [selectedStudentId, setSelectedStudentId] = useState(null);
+
+  useEffect(()=> {
+    setSelectedStudentId(selectedStudentId);
+  })
 
   useEffect(() => {
     refetchAllStudents();
@@ -84,7 +90,8 @@ const StudentTable = ({ selectedCourseId }) => {
 
   const { confirm } = Modal;
 
-  const handleClick = () => {
+  const handleClick = (studentId) => {
+    setSelectedStudentId(studentId);
     confirm({
       title: "Are you sure delete this student?",
       icon: <ExclamationCircleFilled />,
@@ -92,7 +99,7 @@ const StudentTable = ({ selectedCourseId }) => {
       okType: "danger",
       cancelText: "No",
       onOk() {
-        console.log("OK");
+        deleteStudent({studentId: studentsData?.id});
       },
       onCancel() {
         console.log("Cancel");
@@ -164,7 +171,7 @@ const StudentTable = ({ selectedCourseId }) => {
               <EditOutlined />
             </Button>
           </Link>
-          <Button type="primary" onClick={handleClick} danger>
+          <Button type="primary" onClick={() => handleClick(record.id)} danger >
             <DeleteOutlined />
           </Button>
         </Space>
