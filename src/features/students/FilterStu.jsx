@@ -24,7 +24,9 @@ const App = ({onCourseChange}) => {
          optionFilterProp="children"
          filterOption={(input, option) => option.children.toLowerCase().includes(input.toLowerCase())}
          onChange={handleCourseChange}
+         defaultValue={"all"}
       >
+        <Select.Option value="all">All</Select.Option>
         {isLoadingCourses ? (
           <Select.Option value="" disabled>Loading...</Select.Option>
         ) : (

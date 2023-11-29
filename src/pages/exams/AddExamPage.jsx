@@ -3,6 +3,7 @@ import { Button, Form } from "antd";
 import { ArrowLeftOutlined } from "@ant-design/icons";
 import { AddExam } from "../../features/index";
 import { Link, useNavigate } from "react-router-dom";
+import dayjs from "dayjs";
 
 const AddExamPage = () => {
   const formRef = useRef();
@@ -13,21 +14,24 @@ const AddExamPage = () => {
     try {
       const values = await form.validateFields();
       console.log("Form Values", values);
-  
+
       const totalMinutes =
-        values.examDurationMinute?.hours * 60 +
-        values.examDurationMinute?.minutes;
+        dayjs(values?.examDurationMinute).hour() * 60 +
+        dayjs(values?.examDurationMinute).minute();
       const payload = {
         ...values,
-        examDurationMinute: totalMinutes,
+        noOfQuestion: parseInt(values.noOfQuestion),
+        examTotalMark: parseInt(values.examTotalMark),
+        examDurationMinute: parseInt(totalMinutes),
       };
-  
+
+      // console.log(payload);
       if (!Object.values(values).includes(undefined)) {
-        navigate("/exams/addExam/addQuestion", { state: { ...values, payload } });
+        navigate("/exams/addExam/addQuestion", { state: payload });
       }
     } catch (error) {
       console.error("Form validation failed", error);
-  
+
       // Log specific validation errors
       if (error.errorFields) {
         error.errorFields.forEach((fieldError) => {
@@ -37,8 +41,6 @@ const AddExamPage = () => {
       }
     }
   };
-  
-  
 
   const handleFormSubmit = () => {
     form.submit();
@@ -64,6 +66,7 @@ const AddExamPage = () => {
           width: "800",
         }}
         validateMessages={validateMessages}
+        // initialValues={payload}
         onFinish={onFinish}
         autoComplete="off">
         <div className="add-page-header">
@@ -75,7 +78,6 @@ const AddExamPage = () => {
           </p>
           <span className="save-button">
             <Button
-              onClick={handleFormSubmit}
               htmlType="submit"
               type="primary"
               style={{ width: "100px", height: "40px", borderRadius: "2px" }}>
@@ -83,7 +85,7 @@ const AddExamPage = () => {
             </Button>
           </span>
         </div>
-        <AddExam formRef={formRef} onFinish={onFinish} form={form} />
+        <AddExam />
       </Form>
     </>
   );

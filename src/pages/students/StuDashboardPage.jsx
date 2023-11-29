@@ -9,7 +9,7 @@ import "../styles/StudentPage.css";
 import { useState, useEffect } from "react";
 
 const StudentPage = () => {
-  const [selectedCourseId, setSelectedCourseId] = useState();
+  const [selectedCourseId, setSelectedCourseId] = useState("all");
 
   const handleCourseChange = (selectedCourseId) => {
     setSelectedCourseId(selectedCourseId);

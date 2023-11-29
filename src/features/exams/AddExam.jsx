@@ -1,21 +1,22 @@
-import { Form, Input, Radio, Select, InputNumber, Space } from "antd";
+import { Form, Input, Radio, Select, InputNumber, TimePicker } from "antd";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import { useGetAllCoursesQuery } from "../courses/courseApi";
 import "../styles/Exam.css";
 
-const AddExam = ({ formRef, onFinish, form }) => {
+const AddExam = () => {
   const token = useSelector((state) => state.authSlice.token);
   const { data: courses, isLoading } = useGetAllCoursesQuery(token);
+
   // Validate Message
   
-
   //Radio Button
   const [value, setValue] = useState("");
   const onChange = (e) => {
     console.log("radio checked", e.target.value);
     setValue(e.target.value);
   };
+
 
   //Choose Course Select Option
   // Filter `option.label` match the user type `input`
@@ -134,28 +135,11 @@ const AddExam = ({ formRef, onFinish, form }) => {
             className="time-picker"
             rules={[
               {
-                type: 'object',
                 required: true,
                 message: "Please input the limit of the time!",
               },
-            ]}
-          >
-            <Space.Compact>
-              <Form.Item
-                name={['examDurationMinute', 'hours']}
-                noStyle
-                rules={[{ required: true, message: 'Please input hours!' }]}
-              >
-                <InputNumber placeholder="Hours" min={0} max={24} />
-              </Form.Item>
-              <Form.Item
-                name={['examDurationMinute', 'minutes']}
-                noStyle
-                rules={[{ required: true, message: 'Please input minutes!' }]}
-              >
-                <InputNumber placeholder="Minutes" min={0} max={59} />
-              </Form.Item>
-            </Space.Compact>
+            ]}>
+            <TimePicker format={format} showNow={false} />
           </Form.Item>
       </div>
     </div>

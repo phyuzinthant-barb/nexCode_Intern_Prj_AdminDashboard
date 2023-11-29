@@ -24,14 +24,7 @@ const DisplayCourses = ({ searchTerm }) => {
 
   useEffect(() => {
     refetchAllCourses();
-    // if (searchTerm) {
-    //   refetchSearchResults({ courseName: searchTerm });
-    // }
   }, [refetchAllCourses, token]);
-
-  // searchTerm refetchSearchResults
-  // console.log("All Courses:", allCourses);
-  // console.log("Search Results:", searchResults);
 
   useEffect(()=> {
     if(searchTerm) {
@@ -44,8 +37,6 @@ const DisplayCourses = ({ searchTerm }) => {
   }
 
   const coursesToDisplay = searchTerm ? searchResults : allCourses;
-  // console.log("Courses to Display:", coursesToDisplay);
-  // console.log("Course length", coursesToDisplay.length);
 
   return (
     <div className="card-design">

@@ -16,36 +16,21 @@ const StudentTable = ({ selectedCourseId }) => {
     refetch: refetchAllStudents,
   } = useGetAllStudentsQuery(token);
 
-  useEffect(() => {
-    // console.log("course id", selectedCourseId);
-    // if (selectedCourseId) {
-    // const {
-    //   data: studentsByCourse,
-    //   isLoading: isLoadingByCourse,
-    //   refetch: refetchByCourse,
-    // } = useGetStudentsByCourseIdQuery(selectedCourseId, token);
-    // }
-  }, [selectedCourseId]);
+  const [selectedStudentId, setSelectedStudentId] = useState(null);
 
-  // const {
-  //   data: studentsByCourse,
-  //   isLoading: isLoadingByCourse,
-  //   refetch: refetchByCourse,
-  // } = useGetStudentsByCourseIdQuery(selectedCourseId, token);
+  const {
+    data: studentsByCourse,
+    isLoading: isLoadingByCourse,
+    refetch: refetchByCourse,
+  } = useGetStudentsByCourseIdQuery({ courseId: selectedCourseId });
 
-  // console.log("student data", studentsByCourse);
+  console.log("student data", studentsByCourse);
 
   const [deleteStudent] = useDeleteStudentMutation(token);
 
-  // const deleteHandler = (studentId) => {
-  //   deleteStudent(studentId);
-  // };
-
-  const [selectedStudentId, setSelectedStudentId] = useState(null);
-
-  useEffect(()=> {
+  useEffect(() => {
     setSelectedStudentId(selectedStudentId);
-  })
+  });
 
   useEffect(() => {
     refetchAllStudents();
@@ -83,10 +68,16 @@ const StudentTable = ({ selectedCourseId }) => {
     return colorMap;
   }, [studentsData]);
 
-  const dataWithSerialNumbers = (studentsData || []).map((item, index) => ({
-    ...item,
-    serialNumber: index + 1,
-  }));
+  const dataWithSerialNumbers =
+    selectedCourseId === "all"
+      ? (studentsData || []).map((item, index) => ({
+          ...item,
+          serialNumber: index + 1,
+        }))
+      : (studentsByCourse || []).map((item, index) => ({
+          ...item,
+          serialNumber: index + 1,
+        }));
 
   const { confirm } = Modal;
 
@@ -99,7 +90,7 @@ const StudentTable = ({ selectedCourseId }) => {
       okType: "danger",
       cancelText: "No",
       onOk() {
-        deleteStudent({studentId: studentsData?.id});
+        deleteStudent({ studentId: studentsData?.id });
       },
       onCancel() {
         console.log("Cancel");
@@ -126,7 +117,7 @@ const StudentTable = ({ selectedCourseId }) => {
         return (
           <Link
             to={{
-              pathname: `/reports/studentReport/${record.rollNo}`,
+              pathname: `/reports/studentReport/${record.id}`,
               state: { ...record },
             }}>
             {text}
@@ -171,7 +162,7 @@ const StudentTable = ({ selectedCourseId }) => {
               <EditOutlined />
             </Button>
           </Link>
-          <Button type="primary" onClick={() => handleClick(record.id)} danger >
+          <Button type="primary" onClick={() => handleClick(record.id)} danger>
             <DeleteOutlined />
           </Button>
         </Space>

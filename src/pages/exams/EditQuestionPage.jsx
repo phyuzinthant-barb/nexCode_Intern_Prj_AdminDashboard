@@ -1,23 +1,41 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { Button, Form, message } from "antd";
 import { ArrowLeftOutlined } from "@ant-design/icons";
 import { AddQuestion } from "../../features/index";
-import { Link, useLocation, useNavigate } from "react-router-dom";
-import { ExamHeader } from "../../components";
-import { useAddNewExamMutation } from "../../features/exams/examApi";
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
+import { useGetAllQuestionQuery, useEditQuestionMutation } from "../../features/exams/examApi";
 import { useSelector } from "react-redux";
 
-const AddQuestionPage = () => {
+const EditQuestionPage = () => {
   const ref = useRef();
+  const examId = useParams();
   const navigate = useNavigate();
   const [form] = Form.useForm();
   const token = useSelector((state) => state.authSlice.token);
+  const location = useLocation();
+  const examData = location.state;
 
-  const [addNewExam] = useAddNewExamMutation();
-  const examData = useLocation().state;
+  const { data: questionsData, isLoading, refetch } = useGetAllQuestionQuery({examId, token});
+  const [editQuestion, { error: editQuestionError }] = useEditQuestionMutation(token);
+
+  console.log(questionsData);
+
+  useEffect(() => {
+    if (questionsData) {
+      const items = questionsData.map((question, index) => ({
+        question: question.question,
+        optionOne: question.answers[0]?.answer,
+        optionTwo: question.answers[1]?.answer,
+        optionThree: question.answers[2]?.answer,
+        optionFour: question.answers[3]?.answer,
+        correctAnswer: question.answers.find((answer) => answer.correctAnswer)?.answer,
+      }));
+
+      form.setFieldsValue({ items });
+    }
+  }, [questionsData, form]);
 
   const onFinish = async (values) => {
-    // console.log("Add question page values:", values);
     const questions = values.items.map((item) => {
       const answer1 = {
         answer: item.optionOne,
@@ -43,19 +61,16 @@ const AddQuestionPage = () => {
     });
 
     const payload = { ...examData, questions };
-    console.log(payload);
 
     try {
-      const response = await addNewExam({examData : payload});
-  
+      const response = await editQuestion({ examId: examData.id, updatedData: payload });
 
-      if (response?.originalStatus === 201) {
-        console.log("New exam added successfully:", response.data);
-        message.success("New exam added successfully.")
+      if (response?.originalStatus === 200) {
+        message.success("Questions updated successfully.");
         navigate("/exams");
       } else {
-        console.error("Error adding a new exam:", response.error);
-        message.error("Error adding a new exam.")
+        console.error("Error updating questions:", response.error);
+        message.error("Error updating questions.");
       }
     } catch (error) {
       console.error("An unexpected error occurred:", error);
@@ -81,16 +96,13 @@ const AddQuestionPage = () => {
         autoComplete="off"
         validateMessages={validateMessages}
         onFinish={onFinish}
-        initialValues={{
-          items: [{}],
-        }}
       >
         <div className="add-page-header">
           <div className="header">
             <Link to="/exams/addExam" className="arrow-icon">
               <ArrowLeftOutlined />
             </Link>
-            <ExamHeader />
+            Edit Questions
           </div>
           <span className="save-button">
             <Button
@@ -112,4 +124,4 @@ const AddQuestionPage = () => {
   );
 };
 
-export default AddQuestionPage;
+export default EditQuestionPage;

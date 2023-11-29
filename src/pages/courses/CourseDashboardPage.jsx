@@ -22,7 +22,7 @@ const CourseDashboardPage = () => {
       </div>
 
       <div className="search-course">
-        <SearchCourses onSearch={handleSearch} />
+        {/* <SearchCourses onSearch={handleSearch} /> */}
       </div>
       <div>
         <DisplayCourses searchTerm={searchTerm} />

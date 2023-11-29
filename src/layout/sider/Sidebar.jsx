@@ -26,7 +26,7 @@ const Sidebar = () => {
         collapsedWidth="0"
         style={{
           overflow: "auto",
-          minHeight: "100vh",
+          minHeight: "100vh"
         }}>
         <div className="demo-logo-vertical" />
         <Menu

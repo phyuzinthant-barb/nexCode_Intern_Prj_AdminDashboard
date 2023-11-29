@@ -12,6 +12,9 @@ export { default as AddCoursePage } from "./courses/AddCoursePage";
 export { default as ExamDashboardPage } from "./exams/ExamDashboardPage";
 export { default as AddExamPage } from "./exams/AddExamPage";
 export { default as AddQuestionPage } from "./exams/AddQuestionPage";
+export { default as EditExamPage } from "./exams/EditExamPage";
+export { default as EditQuestionPage } from "./exams/EditQuestionPage";
+export { default as ViewAllQuestionPage } from "./exams/ViewAllQuestionPage";
 
 //Report Page
 export { default as ReportDashboardPage } from "./reports/ReportDashboardPage";

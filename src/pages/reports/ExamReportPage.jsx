@@ -1,12 +1,9 @@
 import { Link } from "react-router-dom";
-import { ReportPieChart, CourseReportTable } from "../../features";
+import { ExamReportPieChart, ExamReportTable } from "../../features";
 import "../styles/report.css";
 import { Breadcrumb } from "antd";
-import { useLocation } from "react-router-dom";
 
-const CourseReportPage = () => {
-  const courseData = useLocation()?.state;
-  const { course } = courseData;
+const ExamReportPage = () => {
 
   return (
     <>
@@ -23,7 +20,7 @@ const CourseReportPage = () => {
           },
           {
             title: (
-              <Link to={`report/${course}`}>Course Report</Link>
+             "Course Report"
             ),
           },
           {
@@ -32,16 +29,16 @@ const CourseReportPage = () => {
         ]}
         ></Breadcrumb>
       <div className="report">
-        <h3 className="report-header">Course Report</h3>
+        <h3 className="report-header">Exam Report</h3>
       </div>
       <div className="bi-report">
-        <ReportPieChart />
+        <ExamReportPieChart />
       </div>
       <div className="table">
-        <CourseReportTable />
+        <ExamReportTable />
       </div>
     </>
   );
 };
 
-export default CourseReportPage;
+export default ExamReportPage;

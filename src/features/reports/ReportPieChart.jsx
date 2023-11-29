@@ -1,7 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { Pie, measureTextWidth } from '@ant-design/plots';
+import { useGetOverallReportQuery } from './reportApi';
+import { useSelector } from 'react-redux';
 
 const ReportPieChart = () => {
+
+  const token = useSelector((state) => state.authSlice.token);
+  const {
+    data : overallReportData,
+    isLoading: overallReportLoading,
+    error: overallReportError,
+  } = useGetOverallReportQuery(token);
+
 
   function renderStatistic(containerWidth, text, style) {
     const { width: textWidth, height: textHeight } = measureTextWidth(text, style);
@@ -17,32 +27,11 @@ const ReportPieChart = () => {
     return `<div style="${textStyleStr};font-size:${scale}em;line-height:${scale < 1 ? 1 : 'inherit'};">${text}</div>`;
   }
 
-  const data = [
-    {
-      type: 'UI',
-      value: 27,
-    },
-    {
-      type: 'UX',
-      value: 25,
-    },
-    {
-      type: 'Java',
-      value: 18,
-    },
-    {
-      type: 'React',
-      value: 15,
-    },
-    {
-      type: 'C#',
-      value: 10,
-    },
-    {
-      type: 'JavaScript',
-      value: 5,
-    },
-  ];
+  const data = overallReportData ? overallReportData.map((course) => ({
+    type: course.courseName,
+    value: course.totalNoOfStudents,
+  })) : [];
+
 
   const config = {
     appendPadding: 6,
@@ -74,6 +63,7 @@ const ReportPieChart = () => {
           const text = datum ? datum.type : 'Total Students';
           return renderStatistic(d, text, {
             fontSize: 16,
+            textAlign:"center",
           });
         },
       },
@@ -87,6 +77,7 @@ const ReportPieChart = () => {
           const text = datum ? `${datum.value}` : `${data.reduce((r, d) => r + d.value, 0)}`;
           return renderStatistic(width, text, {
             fontSize: 16,
+            textAlign: "center",
           });
         },
       },

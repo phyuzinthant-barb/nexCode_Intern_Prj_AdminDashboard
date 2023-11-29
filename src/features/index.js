@@ -16,6 +16,7 @@ export { default as CreateExam } from "./exams/CreateExam";
 export { default as DisplayExam } from "./exams/DisplayExam";
 export { default as AddExam } from "./exams/AddExam";
 export { default as AddQuestion } from "./exams/AddQuestion";
+export { default as ViewAllQuestion } from "./exams/ViewAllQuestion";
 
 //Report Features
 export { default as ReportPieChart } from "./reports/ReportPieChart";
@@ -23,4 +24,5 @@ export { default as OverallReportTable } from "./reports/OverallReportTable";
 export { default as CourseReportTable } from "./reports/CourseReportTable";
 export { default as StudentReportTable } from "./reports/StudentReportTable";
 export { default as ExamReportTable } from "./reports/ExamReportTable";
-
+export { default as CourseReportPieChart } from "./reports/CourseReportPieChart";
+export { default as ExamReportPieChart } from "./reports/ExamReportPieChart";

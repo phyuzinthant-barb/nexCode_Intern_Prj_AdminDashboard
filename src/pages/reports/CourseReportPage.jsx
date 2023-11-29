@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { ReportPieChart, CourseReportTable } from "../../features";
+import { CourseReportTable, CourseReportPieChart } from "../../features";
 import "../styles/report.css";
 import { Breadcrumb } from "antd";
 
@@ -26,7 +26,7 @@ const CourseReportPage = () => {
         <h3 className="report-header">Course Report</h3>
       </div>
       <div className="bi-report">
-        <ReportPieChart />
+        <CourseReportPieChart />
       </div>
       <div className="table">
         <CourseReportTable />

@@ -14,13 +14,89 @@ export const examApi = baseApi.injectEndpoints({
     }),
 
     addNewExam: builder.mutation({
-      query: () => ({
+      query: ({ examData }) => ({
         url: `${endPoint}`,
         method: "POST",
+        body: examData,
+        headers: {
+          'Content-Type': 'application/json', // Adjust content type as needed
+          // Include other headers if necessary
+        },
       }),
-      invalidatesTags:["exam"],
-    })
+      invalidatesTags: ["exam"],
+    }),
+
+    editExam: builder.mutation({
+      query: ({ updatedData, examId }) => ({
+        url: `${endPoint}/${examId}`,
+        method: "PUT",
+        body: updatedData,
+        headers: {
+          'Content-Type': 'application/json',
+          // Include other headers if necessary
+        },
+      }),
+      invalidatesTags: ["exam"],
+    }),
+
+    publishExam: builder.mutation({
+      query: ({ published, examId }) => ({
+        url: `${endPoint}/${examId}/publish`,
+        method: "PUT",
+        body: JSON.stringify({ published: true }),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }),
+      invalidatesTags: ["exam"],
+    }),
+
+    unpublishExam: builder.mutation({
+      query: ({ published, examId }) => ({
+        url: `${endPoint}/${examId}/publish`,
+        method: "PUT",
+        body: JSON.stringify({ published: false }),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }),
+      invalidatesTags: ["exam"],
+    }),
+ 
+    getExamById: builder.query({
+      query: ({examId}) => ({
+        url: `${endPoint}/${examId}`,
+        method: "GET",
+      }),
+      invalidatesTags: ["exam"],
+    }),
+
+    getAllQuestion: builder.query({
+      query: ({examId}) => ({
+        url: `${endPoint}/${examId}/questions`,
+        method: "GET",
+      }),
+      invalidatesTags: ["exam"]
+    }),
+
+    editQuestion: builder.mutation({
+      query: ({examId, updatedData}) => ({
+        url: `${endPoint}/${examId}/questions`,
+        method: "PUT",
+        body: updatedData,
+      }),
+      invalidatesTags:["exam"]
+    }),
   }),
 });
 
-export const { useGetAllExamsQuery, useAddNewExamMutation } = examApi;
+export const {
+  useGetAllExamsQuery,
+  useAddNewExamMutation,
+  useEditExamMutation,
+  usePublishExamMutation,
+  useUnpublishExamMutation,
+  useGetExamByIdQuery,
+  useGetAllQuestionQuery,
+  useEditQuestionMutation,
+} = examApi;

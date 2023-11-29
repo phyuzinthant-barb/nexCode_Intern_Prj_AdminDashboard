@@ -1,27 +1,29 @@
 import React, { useState, useEffect } from "react";
 import { Pie, measureTextWidth } from "@ant-design/plots";
 import {
-  useGetExamReportPieChartQuery
+  useGetCourseReportPieChartQuery,
+  useGetOverallReportQuery,
 } from "./reportApi";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 
-const ExamReportPieChart = () => {
-  const {examId} = useParams();
+const ReportPieChart = () => {
+  const {courseId} = useParams();
+  console.log(courseId);
   const token = useSelector((state) => state.authSlice.token);
 
   const {
-    data: examReportData,
-    isLoading: examReportLoading,
-    error: examReportError,
-  } = useGetExamReportPieChartQuery({ examId, token });
+    data: courseReportData,
+    isLoading: courseReportLoading,
+    error: courseReportError,
+  } = useGetCourseReportPieChartQuery({ courseId, token });
 
-  // console.log("API Response:", examReportData); // Log the raw API response
+  console.log("API Response:", courseReportData); // Log the raw API response
 
-  // console.log("isLoading:", examReportLoading);
-  // console.log("error:", examReportError);
+  console.log("isLoading:", courseReportLoading);
+  console.log("error:", courseReportError);
 
-  if (!examReportData || examReportData.length === 0) {
+  if (!courseReportData || courseReportData.length === 0) {
     return (
       <div className="no-exams-placeholder">
         <p>No exams available for this course.</p>
@@ -56,21 +58,14 @@ const ExamReportPieChart = () => {
     };">${text}</div>`;
   }
 
-  console.log(examReportData);
+  console.log(courseReportData);
 
-  const data = examReportData
-  ? [
-      {
-        type: 'Pass',
-        value: examReportData.passCount || 0,
-      },
-      {
-        type: 'Fail',
-        value: examReportData.failCount || 0,
-      },
-    ]
-  : [];
-
+  const data = courseReportData
+    ? courseReportData.map((course) => ({
+        type: course.levelName,
+        value: course.noOfExams,
+      }))
+    : [];
 
   const config = {
     appendPadding: 6,
@@ -143,4 +138,4 @@ const ExamReportPieChart = () => {
   );
 };
 
-export default ExamReportPieChart;
+export default ReportPieChart;

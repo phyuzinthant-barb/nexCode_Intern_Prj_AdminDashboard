@@ -47,17 +47,13 @@ const EditCoursePage = () => {
       setIsSubmitting(true);
       const {data, error } = await editCourseMutation({
         courseId,
-        updatedData: values,
-      }, {
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        updatedData: {...values},
       });
       if(data) {
-        message.success("Course edited successfully.");
+        message.success(data.message);
         navigate("/courses")
       } else if (error) {
-        message.error("Error editing student");
+        message.error(data.error);
       }
     }catch(error) {
       console.error ("Edit course error: ", error)
@@ -89,7 +85,6 @@ const EditCoursePage = () => {
           </p>
           <span className="save-button">
             <Button
-              onClick={onFinish}
               htmlType="submit"
               type="primary"
               style={{ width: "100px", height: "40px", borderRadius: "2px" }}>
