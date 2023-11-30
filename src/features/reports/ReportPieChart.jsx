@@ -1,109 +1,99 @@
-import { Pie } from "@ant-design/plots";
-import "../styles/reports.css";
+import React, { useState, useEffect } from 'react';
+import { Pie, measureTextWidth } from '@ant-design/plots';
+import { useGetOverallReportQuery } from './reportApi';
+import { useSelector } from 'react-redux';
 
-const ReportPieChart = ({ selectedValue }) => {
+const ReportPieChart = () => {
 
-  const generatePieChartData = (selectedValue) => {
-    if (selectedValue === "Overall Course Report") {
-      return [
-        {
-          type: "Java-Programming",
-          value: 20,
-        },
-        {
-          type: "React JS",
-          value: 15,
-        },
-        {
-          type: "UI",
-          value: 22,
-        },
-        {
-          type: "UX",
-          value: 25,
-        },
-      ];
-    } else if (selectedValue === "Java-Programming") {
-      return [
-        {
-          type: "Basic",
-          value: 3,
-        },
-        {
-          type: "Intermediate",
-          value: 2,
-        },
-        {
-          type: "Advanced",
-          value: 4,
-        },
-      ];
-    } else if (selectedValue === "UI") {
-      return [
-        {
-          type: "Basic",
-          value: 2,
-        },
-        {
-          type: "Intermediate",
-          value: 7,
-        },
-        {
-          type: "Advanced",
-          value: 1,
-        },
-      ];
-    } else if (selectedValue === "UX") {
-      return [
-        {
-          type: "Basic",
-          value: 6,
-        },
-        {
-          type: "Intermediate",
-          value: 3,
-        },
-        {
-          type: "Advanced",
-          value: 2,
-        },
-      ];
-    } else if (selectedValue === "React JS") {
-      return [
-        {
-          type: "Basic",
-          value: 6,
-        },
-        {
-          type: "Intermediate",
-          value: 3,
-        },
-        {
-          type: "Advanced",
-          value: 3,
-        },
-      ];
+  const token = useSelector((state) => state.authSlice.token);
+  const {
+    data : overallReportData,
+    isLoading: overallReportLoading,
+    error: overallReportError,
+  } = useGetOverallReportQuery(token);
+
+
+  function renderStatistic(containerWidth, text, style) {
+    const { width: textWidth, height: textHeight } = measureTextWidth(text, style);
+    const R = containerWidth / 2; 
+
+    let scale = 1;
+
+    if (containerWidth < textWidth) {
+      scale = Math.min(Math.sqrt(Math.abs(Math.pow(R, 2) / (Math.pow(textWidth / 2, 2) + Math.pow(textHeight, 2)))), 1);
     }
-    return [];
-  };
 
-  const data = generatePieChartData(selectedValue);
+    const textStyleStr = `width 16 px;`;
+    return `<div style="${textStyleStr};font-size:${scale}em;line-height:${scale < 1 ? 1 : 'inherit'};">${text}</div>`;
+  }
+
+  const data = overallReportData ? overallReportData.map((course) => ({
+    type: course.courseName,
+    value: course.totalNoOfStudents,
+  })) : [];
+
 
   const config = {
-    appendPadding: 10,
+    appendPadding: 6,
     data,
-    angleField: "value",
-    colorField: "type",
+    angleField: 'value',
+    colorField: 'type',
     radius: 1,
     innerRadius: 0.64,
     meta: {
       value: {
-        formatter: (v) => `${v}`,
+        formatter: (v) => `Total Student ${v}`,
       },
     },
-    // ... (rest of the config remains the same)
+    label: {
+      type: 'inner',
+      offset: '-50%',
+      style: {
+        textAlign: 'center',
+      },
+      autoRotate: false,
+      content: '{value}',
+    },
+    statistic: {
+      title: {
+        offsetY: -4,
+        customHtml: (container, view, datum) => {
+          const { width, height } = container.getBoundingClientRect();
+          const d = Math.sqrt(Math.pow(width / 2, 2) + Math.pow(height / 2, 2));
+          const text = datum ? datum.type : 'Total Students';
+          return renderStatistic(d, text, {
+            fontSize: "16px",
+            textAlign:"center",
+          });
+        },
+      },
+      content: {
+        offsetY: 4,
+        style: {
+          fontSize: '16px',
+        },
+        customHtml: (container, view, datum, data) => {
+          const { width } = container.getBoundingClientRect();
+          const text = datum ? `${datum.value}` : `${data.reduce((r, d) => r + d.value, 0)}`;
+          return renderStatistic(width, text, {
+            fontSize: "16px",
+            textAlign: "center",
+          });
+        },
+      },
+    },
+    interactions: [
+      {
+        type: 'element-selected',
+      },
+      {
+        type: 'element-active',
+      },
+      {
+        type: 'pie-statistic-active',
+      },
+    ],
   };
-
   return (
     <>
     <div className="piechart-report">

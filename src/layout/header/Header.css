@@ -59,3 +59,12 @@
 .ee {
   color: #f5222d;
 }
+
+:where(.css-dev-only-do-not-override-xu9wm8).ant-modal .ant-modal-content {
+  width: 461px !important;
+}
+
+.change-password-form :where(.css-dev-only-do-not-override-xu9wm8).ant-input-affix-wrapper {
+  width: 412px !important;
+  border-radius: 2px;
+}

@@ -1,10 +1,14 @@
 import { CloseOutlined } from "@ant-design/icons";
 import { Button, Card, Form, Input, Select, FloatButton } from "antd";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 
 const { TextArea } = Input;
 
-const AddQuestion = ({ formRef, onFinish, form }) => {
+const AddQuestion = ({ form }) => {
+
+  const examData =  useLocation().state;
+  // console.log(examData)
 
   const [selectedOption, setSelectedOption] = useState();
 
@@ -12,29 +16,8 @@ const AddQuestion = ({ formRef, onFinish, form }) => {
     setSelectedOption(value);
   };
 
-  const validateMessages = {
-    required: "${label} is required!",
-  };
-
   return (
     <div className="add-question-container">
-      <Form
-        labelCol={{
-          span: 4,
-        }}
-        wrapperCol={{
-          span: 18,
-        }}
-        form={form}
-        className="add-question-form"
-        name="add-question-form"
-        autoComplete="off"
-        ref={formRef}
-        validateMessages={validateMessages}
-        onFinish={onFinish}
-        initialValues={{
-          items: [{}],
-        }}>
         <Form.List name="items">
           {(fields, { add, remove }) => (
             <div className="add-question-form-list">
@@ -131,19 +114,19 @@ const AddQuestion = ({ formRef, onFinish, form }) => {
                       onChange={handleCorrectAnswer}
                       options={[
                         {
-                          value: "Option 1",
+                          value: "optionOne",
                           label: "Option 1",
                         },
                         {
-                          value: "Option 2",
+                          value: "optionTwo",
                           label: "Option 2",
                         },
                         {
-                          value: "Option 3",
+                          value: "optionThree",
                           label: "Option 3",
                         },
                         {
-                          value: "Option 4",
+                          value: "optionFour",
                           label: "Option 4",
                         },
                       ]}
@@ -158,7 +141,6 @@ const AddQuestion = ({ formRef, onFinish, form }) => {
             </div>
           )}
         </Form.List>
-      </Form>
       <FloatButton.BackTop />
     </div>
   );

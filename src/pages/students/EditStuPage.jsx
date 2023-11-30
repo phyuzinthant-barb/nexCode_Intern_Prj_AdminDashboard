@@ -4,7 +4,7 @@ import { ArrowLeftOutlined } from "@ant-design/icons";
 import { AddStu } from "../../features/index";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import {
-  useEditStudentMutation,
+  useEditStudentMutation, useGetStudentByIdQuery
 } from "../../features/students/studentApi";
 import { useSelector } from "react-redux";
 
@@ -58,15 +58,24 @@ const EditStuPage = () => {
           ...values,
         },
       });
+
+      console.log(error);
   
-      if (data) {
-        message.success("Student edited successfully");
-        navigate ('/stu-dashboard')
-      } else if (error) {
-        message.error("Error editing student");
+      if (error.originalStatus === 200) {
+        navigate("/stu-dashboard");
+        message.success("Student's information updated successfully");
+      } else {
+        message.error("An error occurred while adding the student.");
+        setIsSubmitting(false);
       }
     } catch (error) {
-      console.error("Edit student error:", error);
+      console.error("Error adding student:", error);
+
+      if (error.response && error.response.status === 409) {
+        message.error("Email is already in use. Please use a different email.");
+      } else {
+        message.error("An error occurred while adding the student.");
+      }
     }
   };
   

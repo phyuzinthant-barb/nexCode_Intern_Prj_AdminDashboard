@@ -1,19 +1,22 @@
 import { Form, Input, Radio, Select, InputNumber, TimePicker } from "antd";
 import { useState } from "react";
+import { useSelector } from "react-redux";
+import { useGetAllCoursesQuery } from "../courses/courseApi";
 import "../styles/Exam.css";
 
-const AddExam = ({ formRef, onFinish, form }) => {
-  // Validate Message
-  const validateMessages = {
-    required: "${label} is required!",
-  };
+const AddExam = () => {
+  const token = useSelector((state) => state.authSlice.token);
+  const { data: courses, isLoading } = useGetAllCoursesQuery(token);
 
+  // Validate Message
+  
   //Radio Button
   const [value, setValue] = useState("");
   const onChange = (e) => {
     console.log("radio checked", e.target.value);
     setValue(e.target.value);
   };
+
 
   //Choose Course Select Option
   // Filter `option.label` match the user type `input`
@@ -28,25 +31,10 @@ const AddExam = ({ formRef, onFinish, form }) => {
   const filterOption = (input, option) =>
     (option?.label ?? "").toLowerCase().includes(input.toLowerCase());
 
-  //Fixed Options
-  const options = [
-    {
-      value: "Java-Programming",
-      label: "Java-Programming",
-    },
-    {
-      value: "UI",
-      label: "UI",
-    },
-    {
-      value: "UX",
-      label: "UX",
-    },
-    {
-      value: "React JS",
-      label: "React JS",
-    },
-  ];
+    const options = courses?.map((course) => ({
+      label: course.name,
+      value: course.id,
+    }));
 
   //time picker format
   const format = "HH:mm";
@@ -54,25 +42,9 @@ const AddExam = ({ formRef, onFinish, form }) => {
   return (
     <div className="exam-form-rectangle-box">
       <div className="exam-form">
-        <Form
-          form={form}
-          name="exam-form"
-          ref={formRef}
-          labelCol={{
-            span: 6,
-          }}
-          wrapperCol={{
-            span: 16,
-          }}
-          style={{
-            width: "800",
-          }}
-          validateMessages={validateMessages}
-          onFinish={onFinish}
-          autoComplete="off">
           <Form.Item
             label="Choose Level"
-            name="chooseLvl"
+            name="levelId"
             rules={[
               { required: true, message: "Please input the exam level!" },
             ]}>
@@ -85,7 +57,7 @@ const AddExam = ({ formRef, onFinish, form }) => {
 
           <Form.Item
             label="Choose Course"
-            name="chooseCourse"
+            name="courseId"
             className="select-course"
             size="large"
             rules={[
@@ -107,7 +79,7 @@ const AddExam = ({ formRef, onFinish, form }) => {
 
           <Form.Item
             label="Exam Name"
-            name="examName"
+            name="name"
             rules={[
               {
                 required: true,
@@ -131,7 +103,7 @@ const AddExam = ({ formRef, onFinish, form }) => {
 
           <Form.Item
             label="Total Questions"
-            name="totalQuestions"
+            name="noOfQuestion"
             className="input-number-form"
             rules={[
               {
@@ -145,7 +117,7 @@ const AddExam = ({ formRef, onFinish, form }) => {
 
           <Form.Item
             label="Total Marks"
-            name="totalMarks"
+            name="examTotalMark"
             className="input-number-form"
             rules={[
               {
@@ -159,7 +131,7 @@ const AddExam = ({ formRef, onFinish, form }) => {
 
           <Form.Item
             label="Limited Time"
-            name="time"
+            name="examDurationMinute"
             className="time-picker"
             rules={[
               {
@@ -169,7 +141,6 @@ const AddExam = ({ formRef, onFinish, form }) => {
             ]}>
             <TimePicker format={format} showNow={false} />
           </Form.Item>
-        </Form>
       </div>
     </div>
   );

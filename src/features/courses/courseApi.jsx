@@ -47,7 +47,23 @@ export const courseApi = baseApi.injectEndpoints({
         url: `${endPoint}/users/filter?id=${courseId}`,
         method: "GET",
       }),
-      invalidatesTags: ["user"],
+      invalidatesTags: ["course"],
+    }),
+
+    searchCourseByName: builder.query({
+      query: ({ courseName }) => ({
+        url: `${endPoint}/search?courseName=${courseName}`,
+        method: "GET",
+      }),
+      invalidatesTags: ["course"],
+    }),
+
+    deleteCourseById : builder.mutation({
+      query: ({courseId}) => ({
+        url: `${endPoint}/${courseId}`,
+        method: "DELETE"
+      }),
+      invalidatesTags: ["course"]
     }),
   }),
 });
@@ -58,4 +74,6 @@ export const {
   useEditCourseMutation,
   useGetCourseByIdQuery,
   useGetStudentsByCourseIdQuery,
+  useSearchCourseByNameQuery,
+  useDeleteCourseByIdMutation
 } = courseApi;

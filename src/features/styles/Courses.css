@@ -68,3 +68,7 @@
   margin-top: 36px;
   margin-bottom: 36px;
 }
+
+.ant-input-search .ant-input-group .ant-input-affix-wrapper:not(:last-child) {
+  border: 1px solid #d9d9d9;
+}

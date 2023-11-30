@@ -1,18 +1,18 @@
 import { Input } from "antd";
-const { Search } = Input;
 import "../styles/Students.css";
+const { Search } = Input;
 
-const SearchBox = () => {
-  const onSearch = (value, _e, info) => console.log(info?.source, value);
+const SearchBox = ({ onSearch }) => {
 
   return (
     <span className="searchbox">
       <Search
-        placeholder="Search Student Name/ ID"
+        placeholder="Search Student's Email/Roll No"
         allowClear
         onSearch={onSearch}
         size="medium"
-        bordered="false"
+        enterButton
+        bordered={false}
       />
     </span>
   );

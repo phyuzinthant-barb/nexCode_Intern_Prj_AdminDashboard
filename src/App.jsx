@@ -19,6 +19,9 @@ import {
   ForgotPasswordPage,
   VerifyOTPPage,
   ChangePwdPage,
+  EditExamPage,
+  EditQuestionPage,
+  ViewAllQuestionPage
 } from "./pages/index";
 import RequireAuth from "./features/auth/requireAuth";
 
@@ -56,16 +59,21 @@ const App = () => {
         </Route>
         <Route path="exams">
           <Route index element={<ExamDashboardPage />} />
+          <Route path="view-question/:examId" element={<ViewAllQuestionPage/>} />
           <Route path="addExam">
             <Route index element={<AddExamPage />} />
             <Route path="addQuestion" element={<AddQuestionPage />} />
+          </Route>
+          <Route path="edit-exam/:examId">
+            <Route index element={<EditExamPage />} />
+            <Route path="edit-question" element={<EditQuestionPage/>} />
           </Route>
         </Route>
         <Route path="reports">
           <Route index element={<ReportDashboardPage />} />
           <Route path=":courseId" element={<CourseReportPage />} />
-          <Route path="examReport/:examId" element={<ExamReportPage />} />
-          <Route path="studentReport/:studentId" element={<StudentReportPage />} />
+          <Route path=":courseId/examReport/:examId" element={<ExamReportPage />} />
+          <Route path=":courseId/examReport/:examId/studentReport/:studentId" element={<StudentReportPage />} />
         </Route>
       </Route>
       {/* </Route> */}

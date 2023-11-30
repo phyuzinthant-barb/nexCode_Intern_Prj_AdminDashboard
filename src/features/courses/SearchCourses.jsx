@@ -1,17 +1,24 @@
 import { Input } from "antd";
+import { useState } from "react";
+
 const { Search } = Input;
 
-const SearchCourses = () => {
-  const onSearch = (value, _e, info) => console.log(info?.source, value);
+const SearchCourses = ({ onSearch }) => {
+  const [searchValue, setSearchValue] = useState("");
+
+  const handleSearch = (value, _e, info) => {
+    console.log(info?.source, value);
+    setSearchValue(value);
+    onSearch(value);
+  };
 
   return (
     <span className="searchbox">
       <Search
         placeholder="Search Course"
         allowClear
-        onSearch={onSearch}
+        onSearch={handleSearch}
         size="medium"
-        bordered="false"
       />
     </span>
   );

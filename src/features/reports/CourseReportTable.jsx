@@ -1,143 +1,88 @@
-import { Table } from 'antd';
-import { Link } from 'react-router-dom';
+import { Table, Space, Button } from 'antd';
+import { Link, useParams } from 'react-router-dom';
+import { EyeOutlined } from "@ant-design/icons";
 import "../styles/reports.css";
+import { useSelector } from 'react-redux';
+import { useGetCourseReportQuery} from "./reportApi";
 
-const OverallReportTable = ({ selectedValue }) => {
-  const getJavaProgrammingData = () => [
-    {
-      key: 1,
-      examName: 'Exam 1',
-      level: 'Intermediate',
-      examStartDate: '2023-11-10',
-      inprogressStudents: '12',
-      completedStudents: '8',
-    },
-    {
-      key: 2,
-      examName: 'Exam 2',
-      level: 'Advanced',
-      examStartDate: '2023-12-05',
-      inprogressStudents: '15',
-      completedStudents: '10',
-    },
-  ];
+const CourseReportTable = () => {
+  const {courseId} = useParams();
 
-  const getReactJSData = () => [
-    {
-      key: 3,
-      examName: 'Redux',
-      level: 'basic',
-      examStartDate: '2023-11-10',
-      inprogressStudents: '10',
-      completedStudents: '79',
-    },
-    {
-      key: 4,
-      examName: 'React Router',
-      level: 'intermediate',
-      examStartDate: '2023-11-10',
-      inprogressStudents: '33',
-      completedStudents: '56',
-    },
-  ];
+  const token = useSelector((state) => state.authSlice.token);
+  const {
+    data : CourseReportData,
+    isLoading: CourseReportLoading,
+    error: CourseReportError,
+  } = useGetCourseReportQuery({courseId, token});
+  console.log(CourseReportData);
 
-  const getUIData = () => [
-    {
-      key: 5,
-      examName: 'UI exam 1',
-      level: 'Advanced',
-      examStartDate: '2023-11-10',
-      inprogressStudents: '40',
-      completedStudents: '39',
-    },
-    {
-      key: 6,
-      examName: 'UI exam 2',
-      level: 'intermediate',
-      examStartDate: '2023-11-10',
-      inprogressStudents: '22',
-      completedStudents: '57',
-    },
-  ];
-
-  const getUXData = () => [
-    {
-      key: 7,
-      examName: 'UX exam 1',
-      level: 'Advanced',
-      examStartDate: '2023-11-10',
-      inprogressStudents: '3',
-      completedStudents: '47',
-    },
-    {
-      key: 8,
-      examName: 'UX exam 2',
-      level: 'intermediate',
-      examStartDate: '2023-11-10',
-      inprogressStudents: '44',
-      completedStudents: '6',
-    },
-  ];
-
-  const dataSource = (() => {
-    switch (selectedValue) {
-      case 'Java-Programming':
-        return getJavaProgrammingData();
-      case 'React JS':
-        return getReactJSData();
-      case 'UI':
-        return getUIData();
-      case 'UX':
-        return getUXData();
-      default:
-        return [];
-    }
-  })();
-
-  const dataWithSerialNumbers = dataSource.map((item, index) => ({
-    ...item,
-    serialNumber: index + 1,
-  }));
+  const dataSource = CourseReportData
+  ? CourseReportData.map((exam, index) => ({
+      key: index + 1,
+      examId: exam.examId,
+      examName: exam.examName,
+      levelName: exam.levelName,
+      examPublishedDate: new Date(exam.examPublishedDate).toLocaleDateString(),
+      inProgressStudents: exam.inProgressStudents,
+      completedStudents: exam.completedStudents,
+    }))
+  : [];
 
   const columns = [
     {
-      title: 'No',
-      dataIndex: 'serialNumber',
-      key: 'serialNumber',
+      title: "No",
+      dataIndex: "key",
+      key: "key",
     },
     {
       title: 'Exam Name',
       dataIndex: 'examName',
       key: 'examName',
-      render: (text) => <Link to='examReport'>{text}</Link>,
     },
     {
       title: 'Level',
-      dataIndex: 'level',
-      key: 'level',
+      dataIndex: 'levelName',
+      key: 'levelName',
     },
     {
-      title: 'Exam Start Date',
-      dataIndex: 'examStartDate',
-      key: 'examStartDate',
+      title: 'Exam Published Date',
+      dataIndex: 'examPublishedDate',
+      key: 'examPublishedDate',
     },
     {
       title: 'Inprogress Students',
-      dataIndex: 'inprogressStudents',
-      key: 'inprogressStudents',
+      dataIndex: 'inProgressStudents',
+      key: 'inProgressStudents',
     },
     {
       title: 'Completed Students',
       dataIndex: 'completedStudents',
       key: 'completedStudents',
     },
+    {
+      title: "View Detail",
+      key: "action",
+      render: (text, record) => (
+        <Space size="middle">
+          <Link
+            to={{
+              pathname: `examReport/${record.examId}`,
+              state: { ...record },
+            }}>
+            <Button type="primary">
+              <EyeOutlined />
+            </Button>
+          </Link>
+        </Space>
+      ),
+    },
   ];
 
   return (
     <div className="course-report-table">
-      <Table dataSource={dataWithSerialNumbers} columns={columns} />
+      <Table dataSource={dataSource} columns={columns} />
     </div>
   );
 };
 
-export default OverallReportTable;
+export default CourseReportTable;

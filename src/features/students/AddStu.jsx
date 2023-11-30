@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 
 const AddStu = () => {
   const token = useSelector((state) => state.authSlice.token);
-  const { data: courses, isLoading } = useGetAllCoursesQuery();
+  const { data: courses, isLoading } = useGetAllCoursesQuery(token);
 
   const options = courses?.map((course) => ({
     label: course.name,

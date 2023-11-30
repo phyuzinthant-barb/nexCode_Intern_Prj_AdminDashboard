@@ -1,41 +1,41 @@
 import { Table } from "antd";
 import "../styles/reports.css";
+import { useParams } from "react-router-dom";
+import { useGetStudentReportQuery } from "./reportApi";
+import { useSelector } from "react-redux";
 
 const StudentReportTable = () => {
-  const dataSource = [
-    {
-      key: 1,
-      course: "UI",
-      examName: "UI Design Exam",
-      level: "basic",
-      obtMarks: "70",
-      status: "Passed",
-    },
-    {
-      key: 2,
-      course: "React JS",
-      examName: "Redux Toolkit Exam",
-      level: "intermediate",
-      obtMarks: "90",
-      status: "Passed",
-    },
-  ];
+  const {studentId} = useParams();
+  console.log(studentId);
 
-  const dataWithSerialNumbers = dataSource.map((item, index) => ({
-    ...item,
-    serialNumber: index + 1,
-  }));
+  const token = useSelector((state) => state.authSlice.token);
+  const {
+    data : StudentReportData,
+    isLoading: StudentReportLoading,
+    error: StudentReportError,
+  } = useGetStudentReportQuery({studentId, token});
+
+  const dataSource = StudentReportData
+  ? StudentReportData.map((student, index) => ({
+      key: index + 1,
+      courseName: student.courseName,
+      examName: student.examName,
+      levelName: student.levelName,
+      obtainedResult: student.obtainedResult,
+      isPass: student.isPass,
+    }))
+  : [];
 
   const columns = [
     {
       title: "No",
-      dataIndex: "serialNumber",
-      key: "serialNumber",
+      dataIndex: "key",
+      key: "key",
     },
     {
       title: "Courses",
-      dataIndex: "course",
-      key: "course",
+      dataIndex: "courseName",
+      key: "courseName",
     },
     {
       title: "Exam Name",
@@ -44,27 +44,27 @@ const StudentReportTable = () => {
     },
     {
       title: "Level",
-      dataIndex: "level",
-      key: "level",
+      dataIndex: "levelName",
+      key: "levelName",
     },
     {
       title: "Obtained Marks",
-      dataIndex: "obtMarks",
-      key: "obtMarks",
+      dataIndex: "obtainedResult",
+      key: "obtainedResult",
     },
     {
-      title: "Status",
-      dataIndex: "status",
-      key: "status",
-      render: (status) => {
+      title: 'Status',
+      dataIndex: 'isPass',
+      key: 'isPass',
+      render: (isPass) => {
         const statusStyle = {
-          color: status === "Passed" ? "green" : "red",
+          color: isPass ? 'green' : 'red',
         };
-
+  
         return (
           <span style={statusStyle}>
             <ul>
-              <li>{status}</li>
+              <li>{isPass ? 'Passed' : 'Failed'}</li>
             </ul>
           </span>
         );
@@ -74,7 +74,7 @@ const StudentReportTable = () => {
 
   return (
     <div className="student-report-table">
-      <Table dataSource={dataWithSerialNumbers} columns={columns} />
+      <Table dataSource={dataSource} columns={columns} />
     </div>
   );
 };

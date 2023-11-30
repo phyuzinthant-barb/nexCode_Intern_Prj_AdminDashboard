@@ -46,10 +46,6 @@ export const studentApi = baseApi.injectEndpoints({
         url: `${endPoint}/${studentId}`,
         method: "DELETE",
       }),
-      onError: (error) => {
-        console.error("Delete Student Failed:" , error)
-      },
-      invalidatesTags: ["user"]
     })
   }),
 });
@@ -58,5 +54,6 @@ export const {
   useGetAllStudentsQuery,
   useAddNewStudentMutation,
   useEditStudentMutation,
-  useDeleteStudentMutation
+  useDeleteStudentMutation,
+  useGetStudentByIdQuery
 } = studentApi;

@@ -1,3 +1,4 @@
+import React from "react";
 import { Layout, Menu } from "antd";
 import {
   Diversity3,
@@ -6,23 +7,28 @@ import {
   Assignment,
 } from "@mui/icons-material";
 import "./Sidebar.css";
-import { Outlet, useNavigate } from "react-router-dom";
+import { Outlet, useNavigate, useLocation } from "react-router-dom";
 
 const { Sider, Content } = Layout;
 
 const Sidebar = () => {
   const navigate = useNavigate();
+  const location = useLocation();
 
   const handleClick = (obj) => {
     navigate(obj.key);
   };
 
   return (
-    <Layout hasSider>
+    <Layout hasSider className="side-bar">
       <Sider
-        className="side-bar"
         breakpoint="md"
-        collapsedWidth="0">
+        collapsedWidth="0"
+        style={{
+          overflow: "auto",
+          minHeight: "100vh",
+          position: "sticky",
+        }}>
         <div className="demo-logo-vertical" />
         <Menu
           theme="dark"

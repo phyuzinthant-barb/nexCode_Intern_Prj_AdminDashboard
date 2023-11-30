@@ -4,11 +4,11 @@ import "../styles/Students.css";
 import { Link } from "react-router-dom";
 import { useGetAllStudentsQuery, useDeleteStudentMutation } from "./studentApi";
 import { useSelector } from "react-redux";
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { ExclamationCircleFilled } from "@ant-design/icons";
 import { useGetStudentsByCourseIdQuery } from "../courses/courseApi";
 
-const StudentTable = ({ selectedCourseId }) => {
+const StudentTable = ({ selectedCourseId, foundStudent }) => {
   const token = useSelector((state) => state.authSlice.token);
   const {
     data: studentsData,
@@ -16,30 +16,21 @@ const StudentTable = ({ selectedCourseId }) => {
     refetch: refetchAllStudents,
   } = useGetAllStudentsQuery(token);
 
-  useEffect(() => {
-    console.log("course id", selectedCourseId);
-    // if (selectedCourseId) {
-      // const {
-      //   data: studentsByCourse,
-      //   isLoading: isLoadingByCourse,
-      //   refetch: refetchByCourse,
-      // } = useGetStudentsByCourseIdQuery(selectedCourseId, token);
-    // }
-  }, [selectedCourseId]);
+  const [selectedStudentId, setSelectedStudentId] = useState(null);
 
   const {
     data: studentsByCourse,
     isLoading: isLoadingByCourse,
     refetch: refetchByCourse,
-  } = useGetStudentsByCourseIdQuery(selectedCourseId, token);
+  } = useGetStudentsByCourseIdQuery({ courseId: selectedCourseId });
 
   console.log("student data", studentsByCourse);
 
-  const { mutate: deleteStudent } = useDeleteStudentMutation(token);
+  const [deleteStudent] = useDeleteStudentMutation(token);
 
-  const handleDeleteStudent = (studentId) => {
-    deleteStudent(studentId);
-  };
+  useEffect(() => {
+    setSelectedStudentId(selectedStudentId);
+  });
 
   useEffect(() => {
     refetchAllStudents();
@@ -77,14 +68,33 @@ const StudentTable = ({ selectedCourseId }) => {
     return colorMap;
   }, [studentsData]);
 
-  const dataWithSerialNumbers = (studentsData || []).map((item, index) => ({
-    ...item,
-    serialNumber: index + 1,
-  }));
+  const dataWithSerialNumbers = useMemo(() => {
+    if (foundStudent) {
+      return (studentsData || []).filter((item) => 
+        item.rollNo.toLowerCase() === foundStudent ||
+        item.email.toLowerCase() === foundStudent
+      ).map((item, index) => ({
+        ...item,
+        serialNumber: index + 1,
+      }));
+    }
+  
+    return selectedCourseId === "all"
+      ? (studentsData || []).map((item, index) => ({
+          ...item,
+          serialNumber: index + 1,
+        }))
+      : (studentsByCourse || []).map((item, index) => ({
+          ...item,
+          serialNumber: index + 1,
+        }));
+  }, [studentsData, studentsByCourse, selectedCourseId, foundStudent]);
+  
 
   const { confirm } = Modal;
 
-  const handleClick = () => {
+  const handleClick = (studentId) => {
+    setSelectedStudentId(studentId);
     confirm({
       title: "Are you sure delete this student?",
       icon: <ExclamationCircleFilled />,
@@ -92,7 +102,13 @@ const StudentTable = ({ selectedCourseId }) => {
       okType: "danger",
       cancelText: "No",
       onOk() {
-        console.log("OK");
+        deleteStudent({ studentId })
+          .then(() => {
+            refetchAllStudents();
+          })
+          .catch((error) => {
+            console.error("Error deleting course:", error);
+          });
       },
       onCancel() {
         console.log("Cancel");
@@ -119,7 +135,7 @@ const StudentTable = ({ selectedCourseId }) => {
         return (
           <Link
             to={{
-              pathname: `/reports/studentReport/${record.rollNo}`,
+              pathname: `/reports/studentReport/${record.id}`,
               state: { ...record },
             }}>
             {text}
@@ -164,7 +180,7 @@ const StudentTable = ({ selectedCourseId }) => {
               <EditOutlined />
             </Button>
           </Link>
-          <Button type="primary" onClick={handleClick} danger>
+          <Button type="primary" onClick={() => handleClick(record.id)} danger>
             <DeleteOutlined />
           </Button>
         </Space>

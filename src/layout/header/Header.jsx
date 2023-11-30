@@ -1,4 +1,13 @@
-import { Layout, Dropdown, Space, Avatar } from "antd";
+import {
+  Layout,
+  Dropdown,
+  Space,
+  Avatar,
+  Modal,
+  Form,
+  Input,
+  Button,
+} from "antd";
 import {
   EditOutlined,
   LogoutOutlined,
@@ -6,14 +15,150 @@ import {
   DownOutlined,
 } from "@ant-design/icons";
 import "./Header.css";
+import { useState } from "react";
+import { logoutAccount } from "../../features/auth/authSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { useChangePasswordMutation } from "../../features/auth/user/userApi";
 
 const { Header } = Layout;
 
 const App = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const token = useSelector((state) => state.authSlice.token);
+  const [changePassword, { error: error }] = useChangePasswordMutation(token);
+  const [passwordsMatch, setPasswordsMatch] = useState(true);
+  const [currentNewPasswordSame, setCurrentNewPasswordSame] = useState(true);
+
+  const LogoutModalForm = ({ visible, handleOk, handleCancel }) => (
+    <Modal
+      title="Are you sure to logout?"
+      open={visible}
+      okType="danger"
+      onOk={handleOk}
+      onCancel={handleCancel}
+      centered></Modal>
+  );
+
+  const [logoutModalVisible, setLogoutModalVisible] = useState(false);
+
+  const [openModal, setOpenModal] = useState(false);
+
+  const handleFormSubmission = async (values) => {
+    setPasswordsMatch(true);
+    setCurrentNewPasswordSame(true);
+
+    if (values["new-password"] !== values["confirm-password"]) {
+      setPasswordsMatch(false);
+      return;
+    }
+
+    if (values["current-password"] === values["new-password"]) {
+      setCurrentNewPasswordSame(false);
+      return;
+    }
+
+    try {
+      await changePassword({
+        password: {
+          oldPassword: values["current-password"],
+          newPassword: values["new-password"],
+        },
+      });
+      message.success("Password changed successfully.");
+      navigate("/sign-in");
+    } catch (error) {
+      console.error("Error changing password:", error);
+    }
+  };
+
+  const ChangePwdModalForm = ({ visible, handleOk, handleCancel }) => (
+    <div className="form-modal">
+      <Modal
+        className="form-modal"
+        centered
+        open={visible}
+        onOk={handleOk}
+        okText="Save Changes"
+        onCancel={handleCancel}
+        cancelButtonProps={{ style: { display: 'none' } }}>
+        <div className="change-password-form">
+          <Form
+            className="pwd-form"
+            layout="vertical"
+            name="chg-pw"
+            onFinish={handleFormSubmission}
+            labelCol={{
+              span: 16,
+            }}
+            wrapperCol={{
+              span: 16,
+            }}
+            style={{
+              maxWidth: 400,
+            }}
+            initialValues={{
+              remember: true,
+            }}
+            autoComplete="off">
+            <Form.Item
+              label="Current Password"
+              name="current-password"
+              rules={[
+                {
+                  required: true,
+                  message: "Please input the current password!",
+                },
+              ]}>
+              <Input.Password />
+            </Form.Item>
+
+            <Form.Item
+              label="New Password"
+              name="new-password"
+              rules={[
+                {
+                  required: true,
+                  message: "Please input the new password!",
+                },
+                {
+                  pattern:
+                    /^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+                  message:
+                    "Your password must have minimum eight characters with at least one uppercase letter, one number and one special character.",
+                },
+              ]}>
+              <Input.Password />
+            </Form.Item>
+
+            <Form.Item
+              label="Confirm Password"
+              name="confirm-password"
+              rules={[
+                {
+                  required: true,
+                  message: "Please input the confirm password!",
+                },
+                {
+                  pattern:
+                    /^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+                  message:
+                    "Your password must have minimum eight characters with at least one uppercase letter, one number and one special character.",
+                },
+              ]}>
+              <Input.Password />
+            </Form.Item>
+          </Form>
+        </div>
+      </Modal>
+    </div>
+  );
+
   const items = [
     {
       label: (
-        <a>
+        <a onClick={() => setOpenModal(true)}>
           <EditOutlined /> Change Password
         </a>
       ),
@@ -21,13 +166,33 @@ const App = () => {
     },
     {
       label: (
-        <a>
+        <a onClick={() => setLogoutModalVisible(true)}>
           <LogoutOutlined /> Log out
         </a>
       ),
       key: "1",
     },
   ];
+
+  const handleLogoutModalClose = () => {
+    dispatch(logoutAccount());
+    navigate("/sign-in", { replace: true });
+  };
+
+  const handleLogoutModalCancel = () => {
+    setLogoutModalVisible(false);
+  };
+
+  const handleOkChangePwd = () => {
+    setOpenModal(false);
+    dispatch(logoutAccount());
+    handleFormSubmission();
+  };
+
+  const handleCancelChangePwd = () => {
+    setOpenModal(false);
+    navigate("/stu-dashboard");
+  };
 
   return (
     <Layout>
@@ -51,12 +216,22 @@ const App = () => {
           <a onClick={(e) => e.preventDefault()}>
             <Space>
               <Avatar icon={<UserOutlined />} />
-                Admin
-                <DownOutlined />
+              Admin
+              <DownOutlined />
             </Space>
           </a>
         </Dropdown>
       </Header>
+      <LogoutModalForm
+        visible={logoutModalVisible}
+        handleOk={handleLogoutModalClose}
+        handleCancel={handleLogoutModalCancel}
+      />
+      <ChangePwdModalForm
+        visible={openModal}
+        handleOk={handleOkChangePwd}
+        handleCancel={handleCancelChangePwd}
+      />
     </Layout>
   );
 };
