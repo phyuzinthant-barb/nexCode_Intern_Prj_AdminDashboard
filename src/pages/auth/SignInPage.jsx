@@ -23,14 +23,8 @@ const App = () => {
         dispatch(setCredentials({ email : values?.email , accessToken: data.token }));
         navigate("/stu-dashboard");
       } else if (error) {
-        if (error.originalStatus === 404) {
-          message.error("Email is incorrect.");
-        } else if (error.originalStatus === 401) {
-          message.error("Password is incorrect.");
+          message.error("Email or Password is incorrect.");
         } else {
-          message.error(error?.data?.message || error?.error || "Login failed.");
-        }
-      } else {
         console.error("Unexpected response from login API:", { data, error });
       }
     } catch (error) {

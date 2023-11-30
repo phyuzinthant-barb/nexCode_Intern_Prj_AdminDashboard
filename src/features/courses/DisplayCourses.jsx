@@ -1,14 +1,14 @@
-import { Card, Button, Space, Modal } from "antd";
+import { Card, Button, Space, Modal, Empty } from "antd";
 import { EditOutlined, DeleteOutlined, ExclamationCircleOutlined } from "@ant-design/icons";
 import { Link } from "react-router-dom";
-import { useGetAllCoursesQuery, useSearchCourseByNameQuery, useDeleteCourseByIdMutation } from "./courseApi"; 
+import { useGetAllCoursesQuery, useDeleteCourseByIdMutation } from "./courseApi"; 
 import { useSelector } from "react-redux";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import "../styles/Courses.css";
 
 const { confirm } = Modal;
 
-const DisplayCourses = ({ searchTerm }) => {
+const DisplayCourses = () => {
   const token = useSelector((state) => state.authSlice.token);
   const {
     data: allCourses,
@@ -17,25 +17,11 @@ const DisplayCourses = ({ searchTerm }) => {
     refetch: refetchAllCourses,
   } = useGetAllCoursesQuery(token);
 
-  const {
-    data: searchResults,
-    isLoading: searchLoading,
-    error: searchError,
-    refetch: refetchSearchResults,
-  } = useSearchCourseByNameQuery({ courseName: searchTerm });
-
   const [deleteCourseMutation] = useDeleteCourseByIdMutation(token);
 
   useEffect(() => {
     refetchAllCourses();
   }, [refetchAllCourses, token]);
-
-  // useEffect(() => {
-  //   if (searchTerm) {
-  //     refetchSearchResults({ courseName: searchTerm });
-  //   }
-  // }, [refetchSearchResults, token, searchTerm]);
-
 
   const handleDelete = (courseId) => {
     confirm({
@@ -55,18 +41,13 @@ const DisplayCourses = ({ searchTerm }) => {
       },
     });
   };
-  
 
-  // if (allCoursesError || searchError) {
-  //   console.error("Error fetching courses:", allCoursesError || searchError);
-  // }
-
-  const coursesToDisplay = searchTerm ? searchResults : allCourses;
+  const coursesToDisplay = allCourses;
 
   return (
     <div className="card-design">
-      {allCoursesLoading || searchLoading ? (
-        <p>Loading...</p>
+      {allCoursesLoading  ? (
+        <Empty />
       ) : (
         <div>
           {coursesToDisplay.length > 0 ? (
@@ -103,7 +84,7 @@ const DisplayCourses = ({ searchTerm }) => {
               </Card>
             ))
           ) : (
-            <p>No courses available</p>
+            <Empty />
           )}
         </div>
       )}

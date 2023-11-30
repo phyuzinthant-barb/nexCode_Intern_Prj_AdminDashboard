@@ -124,9 +124,9 @@ const ReportPieChart = () => {
       {
         type: "element-active",
       },
-      // {
-      //   type: "pie-statistic-active",
-      // },
+      {
+        type: "pie-statistic-active",
+      },
     ],
   };
   return (

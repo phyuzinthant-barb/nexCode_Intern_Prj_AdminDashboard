@@ -20,10 +20,6 @@ const CourseDashboardPage = () => {
           <CreateCourses />
         </Link>
       </div>
-
-      <div className="search-course">
-        {/* <SearchCourses onSearch={handleSearch} /> */}
-      </div>
       <div>
         <DisplayCourses searchTerm={searchTerm} />
       </div>

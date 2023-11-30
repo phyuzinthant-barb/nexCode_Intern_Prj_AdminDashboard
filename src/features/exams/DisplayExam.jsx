@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Card, Button, Space, Switch, Modal, message } from "antd";
+import { Card, Button, Space, Switch, Modal, message, Empty } from "antd";
 import {
   EditOutlined,
   DeleteOutlined,
@@ -29,8 +29,8 @@ const ExamCard = ({ exam, refetch, token }) => {
     confirm({
       title: "Are you sure, you will make this exam publish?",
       icon: <ExclamationCircleFilled />,
-      okText: "Yes",
-      cancelText: "No",
+      okText: "Publish",
+      cancelText: "Cancel",
       onOk() {
         handlePublishExam();
       },
@@ -220,7 +220,7 @@ const DisplayExam = () => {
               />
             ))
           ) : (
-            <p>No exams available</p>
+            <Empty />
           )}
         </div>
       )}

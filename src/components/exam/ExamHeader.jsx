@@ -28,12 +28,14 @@ const ExamHeader = () => {
     }
   }
 
+  console.log(currentCourse)
+
   return (
     <div>
       {levelId && (
         <>
           <div>
-            {currentCourse} - {levelText} - {name}
+            {currentCourse?.name} - {levelText} - {name}
           </div>
         </>
       )}
