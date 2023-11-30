@@ -95,6 +95,7 @@ body {
   min-width: 150px;
   /* text-align: end !important; */
   display: block !important;
+  padding-top: 4px;
 }
 
 /* page-header */
@@ -148,4 +149,16 @@ body {
   border-radius: 2px;
   border: 1px solid var(--neutral-4, #F0F0F0);
   background: var(--neutral-2, #FAFAFA);
+}
+
+:where(.css-dev-only-do-not-override-xu9wm8).ant-modal .ant-modal-content {
+  border-radius: 2px !important;
+}
+
+:where(.css-dev-only-do-not-override-xu9wm8).ant-btn {
+  border-radius: 2px !important;
+}
+
+:where(.css-dev-only-do-not-override-xu9wm8).ant-modal .ant-modal-footer {
+  text-align: center;
 }

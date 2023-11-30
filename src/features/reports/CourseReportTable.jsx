@@ -66,7 +66,7 @@ const CourseReportTable = () => {
         <Space size="middle">
           <Link
             to={{
-              pathname: `/reports/examReport/${record.examId}`,
+              pathname: `examReport/${record.examId}`,
               state: { ...record },
             }}>
             <Button type="primary">

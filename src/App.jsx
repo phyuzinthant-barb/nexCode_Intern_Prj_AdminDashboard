@@ -72,8 +72,8 @@ const App = () => {
         <Route path="reports">
           <Route index element={<ReportDashboardPage />} />
           <Route path=":courseId" element={<CourseReportPage />} />
-          <Route path="examReport/:examId" element={<ExamReportPage />} />
-          <Route path="studentReport/:studentId" element={<StudentReportPage />} />
+          <Route path=":courseId/examReport/:examId" element={<ExamReportPage />} />
+          <Route path=":courseId/examReport/:examId/studentReport/:studentId" element={<StudentReportPage />} />
         </Route>
       </Route>
       {/* </Route> */}

@@ -19,8 +19,7 @@ export const examApi = baseApi.injectEndpoints({
         method: "POST",
         body: examData,
         headers: {
-          'Content-Type': 'application/json', // Adjust content type as needed
-          // Include other headers if necessary
+          'Content-Type': 'application/json', 
         },
       }),
       invalidatesTags: ["exam"],
@@ -33,7 +32,6 @@ export const examApi = baseApi.injectEndpoints({
         body: updatedData,
         headers: {
           'Content-Type': 'application/json',
-          // Include other headers if necessary
         },
       }),
       invalidatesTags: ["exam"],
@@ -87,6 +85,14 @@ export const examApi = baseApi.injectEndpoints({
       }),
       invalidatesTags:["exam"]
     }),
+
+    deleteExamById: builder.mutation({
+      query: ({examId}) => ({
+        url: `${endPoint}/${examId}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["exam"]
+    })
   }),
 });
 
@@ -99,4 +105,5 @@ export const {
   useGetExamByIdQuery,
   useGetAllQuestionQuery,
   useEditQuestionMutation,
+  useDeleteExamByIdMutation
 } = examApi;

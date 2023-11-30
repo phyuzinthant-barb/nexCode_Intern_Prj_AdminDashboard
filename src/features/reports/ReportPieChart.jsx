@@ -23,7 +23,7 @@ const ReportPieChart = () => {
       scale = Math.min(Math.sqrt(Math.abs(Math.pow(R, 2) / (Math.pow(textWidth / 2, 2) + Math.pow(textHeight, 2)))), 1);
     }
 
-    const textStyleStr = `width:${containerWidth}px;`;
+    const textStyleStr = `width 16 px;`;
     return `<div style="${textStyleStr};font-size:${scale}em;line-height:${scale < 1 ? 1 : 'inherit'};">${text}</div>`;
   }
 
@@ -62,7 +62,7 @@ const ReportPieChart = () => {
           const d = Math.sqrt(Math.pow(width / 2, 2) + Math.pow(height / 2, 2));
           const text = datum ? datum.type : 'Total Students';
           return renderStatistic(d, text, {
-            fontSize: 16,
+            fontSize: "16px",
             textAlign:"center",
           });
         },
@@ -76,7 +76,7 @@ const ReportPieChart = () => {
           const { width } = container.getBoundingClientRect();
           const text = datum ? `${datum.value}` : `${data.reduce((r, d) => r + d.value, 0)}`;
           return renderStatistic(width, text, {
-            fontSize: 16,
+            fontSize: "16px",
             textAlign: "center",
           });
         },

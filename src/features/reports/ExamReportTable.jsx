@@ -80,7 +80,7 @@ const CourseReportTable = () => {
         <Space size="middle">
           <Link
             to={{
-              pathname: `/reports/examReport/${record.studentId}`,
+              pathname: `studentReport/${record.studentId}`,
               state: { ...record },
             }}>
             <Button type="primary">

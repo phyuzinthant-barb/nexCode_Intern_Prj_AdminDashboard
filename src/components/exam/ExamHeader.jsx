@@ -1,12 +1,19 @@
 import { useLocation } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { useGetAllCoursesQuery } from "../../features/courses/courseApi";
 
 const ExamHeader = () => {
-  const examData = useLocation()?.state;
-  const { chooseCourse, chooseLvl, examName } = examData;
+  const payload = useLocation()?.state;
+  const { courseId, levelId, name } = payload;
+  const token = useSelector((state) => state.authSlice.token);
+  const { data: courseData, isLoading, error } = useGetAllCoursesQuery(token);
+  const currentCourse = courseData?.find(
+    (course) => course.id === parseInt(courseId)
+  );
   let levelText = "";
 
-  if (examData) {
-    switch (chooseLvl) {
+  if (payload) {
+    switch (levelId) {
       case 1:
         levelText = "Basic";
         break;
@@ -23,10 +30,10 @@ const ExamHeader = () => {
 
   return (
     <div>
-      {levelText && (
+      {levelId && (
         <>
           <div>
-            {chooseCourse} - {levelText} - {examName}
+            {currentCourse} - {levelText} - {name}
           </div>
         </>
       )}

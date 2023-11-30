@@ -7,6 +7,7 @@ import {
 } from "@ant-design/icons";
 import { Link, useNavigate } from "react-router-dom";
 import {
+  useDeleteExamByIdMutation,
   useGetAllExamsQuery,
   usePublishExamMutation,
   useUnpublishExamMutation,
@@ -16,7 +17,8 @@ import "../styles/Exam.css";
 
 const { confirm } = Modal;
 
-const ExamCard = ({ exam, refetch }) => {
+const ExamCard = ({ exam, refetch, token }) => {
+  const [deleteExamById] = useDeleteExamByIdMutation(token);
   const [isSwitchOn, setIsSwitchOn] = useState(exam.published);
   const [initialButtonsShown, setInitialButtonsShown] = useState(true);
 
@@ -34,7 +36,6 @@ const ExamCard = ({ exam, refetch }) => {
       },
       onCancel() {
         setIsSwitchOn(isSwitchOn);
-        setInitialButtonsShown(true);
       },
     });
   };
@@ -62,6 +63,20 @@ const ExamCard = ({ exam, refetch }) => {
         refetchExams();
       } else {
         console.error("Error publishing exam:", error);
+
+        if (error.response?.error?.message) {
+          Modal.error({
+            title:
+              "This exam has not yet reached the set number of questions, so it cannot be made public yet. You need to create more questions",
+              okText: "Got it",
+          });
+        } else {
+          Modal.error({
+            title:
+              "This exam has not yet reached the set number of questions, so it cannot be made public yet. You need to create more questions",
+              okText: "Got it",
+          });
+        }
       }
     } catch (error) {
       console.error("An unexpected error occurred:", error);
@@ -94,10 +109,29 @@ const ExamCard = ({ exam, refetch }) => {
     refetch();
   };
 
+  const handleDelete = (examId) => {
+    confirm({
+      title: "Are you sure you want to delete this course?",
+      icon: <ExclamationCircleFilled />,
+      okText: "Yes",
+      okType: "danger",
+      cancelText: "No",
+      onOk() {
+        deleteExamById({ examId })
+          .then(() => {
+            refetchExams();
+          })
+          .catch((error) => {
+            console.error("Error deleting course:", error);
+          });
+      },
+    });
+  };
+
   const navigate = useNavigate();
 
   const handleViewQuestions = () => {
-    navigate(`/exams/view-question/${exam.id}`, { state: { ...exam } });
+    navigate(`/exams/view-question/${exam.id}`);
   };
 
   return (
@@ -129,22 +163,27 @@ const ExamCard = ({ exam, refetch }) => {
         <div className="action">
           <Space size="middle">
             <div className="publish-switch"></div>
-            {initialButtonsShown && (
+            {initialButtonsShown ? (
               <>
                 <Link to={`edit-exam/${exam.id}`}>
                   <Button type="primary">
                     <EditOutlined />
                   </Button>
                 </Link>
-                <Button type="primary" danger>
+                <Button
+                  type="primary"
+                  danger
+                  onClick={() => handleDelete(exam.id)}>
                   <DeleteOutlined />
                 </Button>
               </>
-            )}
-            {!initialButtonsShown && ( 
-                <Button className="view-questions-btn" type="primary" onClick={handleViewQuestions}>
-                  View All Questions
-                </Button>
+            ) : (
+              <Button
+                className="view-questions-btn"
+                type="primary"
+                onClick={handleViewQuestions}>
+                View All Questions
+              </Button>
             )}
           </Space>
         </div>
@@ -173,7 +212,12 @@ const DisplayExam = () => {
         <div>
           {Array.isArray(exams) && exams.length > 0 ? (
             exams.map((exam) => (
-              <ExamCard key={exam.id} exam={exam} refetch={refetch} />
+              <ExamCard
+                key={exam.id}
+                exam={exam}
+                refetch={refetch}
+                token={token}
+              />
             ))
           ) : (
             <p>No exams available</p>

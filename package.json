@@ -18,6 +18,7 @@
     "@mui/styled-engine": "^5.14.15",
     "@reduxjs/toolkit": "^1.9.7",
     "antd": "^5.10.2",
+    "antd-style": "^3.5.2",
     "dayjs": "^1.11.10",
     "dayjs-ext": "^2.2.0",
     "flatted": "^3.2.9",

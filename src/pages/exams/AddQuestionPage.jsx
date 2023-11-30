@@ -17,7 +17,6 @@ const AddQuestionPage = () => {
   const examData = useLocation().state;
 
   const onFinish = async (values) => {
-    // console.log("Add question page values:", values);
     const questions = values.items.map((item) => {
       const answer1 = {
         answer: item.optionOne,
@@ -46,11 +45,9 @@ const AddQuestionPage = () => {
     console.log(payload);
 
     try {
-      const response = await addNewExam({examData : payload});
-  
-
-      if (response?.originalStatus === 201) {
-        console.log("New exam added successfully:", response.data);
+      const {data,error} = await addNewExam({examData : payload});
+      if (data) {
+        console.log("New exam added successfully:", data);
         message.success("New exam added successfully.")
         navigate("/exams");
       } else {

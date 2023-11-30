@@ -8,7 +8,7 @@ import { useEffect, useMemo, useState } from "react";
 import { ExclamationCircleFilled } from "@ant-design/icons";
 import { useGetStudentsByCourseIdQuery } from "../courses/courseApi";
 
-const StudentTable = ({ selectedCourseId }) => {
+const StudentTable = ({ selectedCourseId, foundStudent }) => {
   const token = useSelector((state) => state.authSlice.token);
   const {
     data: studentsData,
@@ -68,8 +68,18 @@ const StudentTable = ({ selectedCourseId }) => {
     return colorMap;
   }, [studentsData]);
 
-  const dataWithSerialNumbers =
-    selectedCourseId === "all"
+  const dataWithSerialNumbers = useMemo(() => {
+    if (foundStudent) {
+      return (studentsData || []).filter((item) => 
+        item.rollNo.toLowerCase() === foundStudent ||
+        item.email.toLowerCase() === foundStudent
+      ).map((item, index) => ({
+        ...item,
+        serialNumber: index + 1,
+      }));
+    }
+  
+    return selectedCourseId === "all"
       ? (studentsData || []).map((item, index) => ({
           ...item,
           serialNumber: index + 1,
@@ -78,6 +88,8 @@ const StudentTable = ({ selectedCourseId }) => {
           ...item,
           serialNumber: index + 1,
         }));
+  }, [studentsData, studentsByCourse, selectedCourseId, foundStudent]);
+  
 
   const { confirm } = Modal;
 
@@ -90,7 +102,13 @@ const StudentTable = ({ selectedCourseId }) => {
       okType: "danger",
       cancelText: "No",
       onOk() {
-        deleteStudent({ studentId: studentsData?.id });
+        deleteStudent({ studentId })
+          .then(() => {
+            refetchAllStudents();
+          })
+          .catch((error) => {
+            console.error("Error deleting course:", error);
+          });
       },
       onCancel() {
         console.log("Cancel");

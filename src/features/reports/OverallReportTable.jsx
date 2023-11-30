@@ -8,21 +8,21 @@ import { useGetOverallReportQuery } from "./reportApi";
 const OverallReportTable = () => {
   const token = useSelector((state) => state.authSlice.token);
   const {
-    data : overallReportData,
+    data: overallReportData,
     isLoading: overallReportLoading,
     error: overallReportError,
   } = useGetOverallReportQuery(token);
 
   const dataSource = overallReportData
-  ? overallReportData.map((course, index) => ({
-      key: index + 1,
-      courseId: course.courseId,
-      courseName: course.courseName,
-      totalNoOfStudents: course.totalNoOfStudents,
-      inProgressStudents: course.inProgressStudents,
-      completeStudents: course.completeStudents,
-    }))
-  : [];
+    ? overallReportData.map((course, index) => ({
+        key: index + 1,
+        courseId: course.courseId,
+        courseName: course.courseName,
+        totalNoOfStudents: course.totalNoOfStudents,
+        inProgressStudents: course.inProgressStudents,
+        completeStudents: course.completeStudents,
+      }))
+    : [];
 
   const columns = [
     {
@@ -58,6 +58,7 @@ const OverallReportTable = () => {
           <Link
             to={{
               pathname: `/reports/${record.courseId}`,
+              state: { ...record },
             }}>
             <Button type="primary">
               <EyeOutlined />

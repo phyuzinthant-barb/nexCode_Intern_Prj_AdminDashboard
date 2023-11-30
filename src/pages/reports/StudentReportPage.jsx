@@ -1,9 +1,19 @@
 import { ArrowLeftOutlined } from "@ant-design/icons";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { StudentReportTable } from "../../features";
 import { Breadcrumb } from "antd";
+import { useSelector } from "react-redux";
+import { useGetAllStudentsQuery } from "../../features/students/studentApi";
 
 const StudentReportPage = () => {
+
+  const { studentId, courseId, examId } = useParams();
+  const token = useSelector((state) => state.authSlice.token);
+  const { data: studentData, isLoading, error } = useGetAllStudentsQuery(token);
+  const currentStudent = studentData?.find(
+    (student) => student.id === parseInt(studentId)
+  );
+
 
   return (
     <div>
@@ -19,12 +29,10 @@ const StudentReportPage = () => {
             ),
           },
           {
-            title: (
-             "Course Report"
-            ),
+            title: <Link to={`/reports/${courseId}`}>Course Report</Link>,
           },
           {
-            title: 'Exam Report',
+            title: <Link to={`/reports/${courseId}/examReport/${examId}`}>Exam Report</Link>,
           },
           {
             title: 'Student Report',
@@ -32,7 +40,7 @@ const StudentReportPage = () => {
         ]}
         ></Breadcrumb>
       <p className="header">
-        Student Name
+      {currentStudent ? currentStudent.username : "Course Name Not Found"}
       </p>
       <div className="student-report-table">
         <StudentReportTable />

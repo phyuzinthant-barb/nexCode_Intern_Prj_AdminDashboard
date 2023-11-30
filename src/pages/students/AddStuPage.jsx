@@ -25,7 +25,7 @@ const AddStuPage = () => {
         message.success("Student added successfully");
         navigate("/stu-dashboard");
       } else {
-        message.error(error.data);
+        message.error("An error occurred while adding the student.");
         setIsSubmitting(false);
       }
     } catch (error) {

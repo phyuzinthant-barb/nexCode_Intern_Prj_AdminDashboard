@@ -1,20 +1,53 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { Button, Form, message } from "antd";
 import { ArrowLeftOutlined } from "@ant-design/icons";
-import { ViewAllQuestion } from "../../features/index";
-import { Link, useLocation, useNavigate } from "react-router-dom";
-import { useAddNewExamMutation } from "../../features/exams/examApi";
+import { AddQuestion } from "../../features/index";
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
+import {
+  useGetAllQuestionQuery,
+  useEditQuestionMutation,
+} from "../../features/exams/examApi";
 import { useSelector } from "react-redux";
 
-const ViewAllQuestionsPage = () => {
-  const ref = useRef();
+const EditQuestionPage = () => {
+  const { examId } = useParams();
   const navigate = useNavigate();
   const [form] = Form.useForm();
   const token = useSelector((state) => state.authSlice.token);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const validateMessages = {
-    required: "${label} is required!",
-  };
+  const {
+    data: questionsData,
+    isLoading,
+    refetch,
+  } = useGetAllQuestionQuery({ examId, token });
+
+  const [editQuestion, { error: editQuestionError }] = useEditQuestionMutation({
+    examId,
+    token,
+  });
+
+  useEffect(() => {
+    refetch();
+  }, [refetch, token]);
+
+  useEffect(() => {
+    if (questionsData) {
+      const items = questionsData.map((question, index) => ({
+        question: question.question,
+        optionOne: question.answers[0]?.answer,
+        optionTwo: question.answers[1]?.answer,
+        optionThree: question.answers[2]?.answer,
+        optionFour: question.answers[3]?.answer,
+        correctAnswer: question.answers.find((answer) => answer.correctAnswer)
+          ?.answer,
+      }));
+
+      form.setFieldsValue({ items });
+    }
+    console.log("useEffect triggered");
+  }, [questionsData, form]);
+
 
   return (
     <>
@@ -26,39 +59,25 @@ const ViewAllQuestionsPage = () => {
           span: 18,
         }}
         form={form}
+        disabled
         className="add-question-form"
         name="add-question-form"
         autoComplete="off"
-        validateMessages={validateMessages}
-        initialValues={{
-          items: [{}],
-        }}
-      >
+        >
         <div className="add-page-header">
           <div className="header">
-            <Link to="/exams/addExam" className="arrow-icon">
+            <Link to="/exams" className="arrow-icon">
               <ArrowLeftOutlined />
             </Link>
-            All Questions
+            View All Questions
           </div>
           <span className="save-button">
-            <Button
-              htmlType="submit"
-              type="primary"
-              style={{
-                width: "100px",
-                height: "40px",
-                borderRadius: "2px",
-              }}
-            >
-              Done
-            </Button>
           </span>
         </div>
-        <ViewAllQuestion form={form} />
+        <AddQuestion form={form} />
       </Form>
     </>
   );
 };
 
-export default ViewAllQuestionsPage;
+export default EditQuestionPage;

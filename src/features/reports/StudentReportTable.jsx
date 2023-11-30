@@ -6,6 +6,7 @@ import { useSelector } from "react-redux";
 
 const StudentReportTable = () => {
   const {studentId} = useParams();
+  console.log(studentId);
 
   const token = useSelector((state) => state.authSlice.token);
   const {
@@ -13,16 +14,15 @@ const StudentReportTable = () => {
     isLoading: StudentReportLoading,
     error: StudentReportError,
   } = useGetStudentReportQuery({studentId, token});
-  console.log(StudentReportData);
 
   const dataSource = StudentReportData
-  ? StudentReportData.map((exam, index) => ({
+  ? StudentReportData.map((student, index) => ({
       key: index + 1,
-      courseName: exam.examName,
-      examName: exam.levelName,
-      levelName: exam.inProgressStudents,
-      obtainedResult: exam.completedStudents,
-      isPass,
+      courseName: student.courseName,
+      examName: student.examName,
+      levelName: student.levelName,
+      obtainedResult: student.obtainedResult,
+      isPass: student.isPass,
     }))
   : [];
 

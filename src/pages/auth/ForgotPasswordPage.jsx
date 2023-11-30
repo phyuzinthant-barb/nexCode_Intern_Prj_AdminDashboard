@@ -7,7 +7,7 @@ import { useLocation } from "react-router-dom";
 const App = () => {
   const navigate = useNavigate();
   const currentRoute = useLocation().pathname;
-  const [forgotPasswordMutation] = useForgotPasswordMutation();
+  const [forgotPasswordMutation, {isLoading: Loading}] = useForgotPasswordMutation();
 
   const onFinish = async (values) => {
     try {

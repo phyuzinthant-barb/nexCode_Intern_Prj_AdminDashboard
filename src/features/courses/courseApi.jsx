@@ -60,11 +60,11 @@ export const courseApi = baseApi.injectEndpoints({
 
     deleteCourseById : builder.mutation({
       query: ({courseId}) => ({
-        url: `${courseId}`,
+        url: `${endPoint}/${courseId}`,
         method: "DELETE"
       }),
       invalidatesTags: ["course"]
-    })
+    }),
   }),
 });
 

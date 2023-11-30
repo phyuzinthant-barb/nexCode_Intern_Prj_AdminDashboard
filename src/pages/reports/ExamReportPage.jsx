@@ -1,9 +1,18 @@
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { ExamReportPieChart, ExamReportTable } from "../../features";
 import "../styles/report.css";
 import { Breadcrumb } from "antd";
+import { useSelector } from "react-redux";
+import { useGetAllExamsQuery } from "../../features/exams/examApi";
 
 const ExamReportPage = () => {
+  const { examId, courseId } = useParams();
+  console.log(examId);
+  const token = useSelector((state) => state.authSlice.token);
+  const { data: examData, isLoading, error } = useGetAllExamsQuery(token);
+  const currentExam = examData?.find(
+    (exam) => exam.id === parseInt(examId)
+  );
 
   return (
     <>
@@ -19,9 +28,7 @@ const ExamReportPage = () => {
             ),
           },
           {
-            title: (
-             "Course Report"
-            ),
+            title: <Link to={`/reports/${courseId}`}>Course Report</Link>,
           },
           {
             title: 'Exam Report',
@@ -29,7 +36,7 @@ const ExamReportPage = () => {
         ]}
         ></Breadcrumb>
       <div className="report">
-        <h3 className="report-header">Exam Report</h3>
+        <h3 className="report-header">{currentExam ? currentExam.name : "Course Name Not Found"}</h3>
       </div>
       <div className="bi-report">
         <ExamReportPieChart />

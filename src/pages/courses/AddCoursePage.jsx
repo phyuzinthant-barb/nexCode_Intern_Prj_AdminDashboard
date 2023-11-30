@@ -39,8 +39,9 @@ const AddCoursePage = () => {
     try {
       setIsSubmitting(true);
       const { data, error } = await addNewCourse({
-        courseData: values, 
+        courseData: { name: values.name, description: values.description },
       });
+      console.log(error);
       if (data) {
         dispatch(message.success("Course created successfully."));
         navigate("/courses");
