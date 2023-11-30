@@ -13,26 +13,7 @@ const AddCoursePage = () => {
   const [form] = Form.useForm();
   const token = useSelector((state) => state.authSlice.token);
 
-  // const [addNewCourse] = useAddNewCourseMutation();
   const [isSubmitting, setIsSubmitting] = useState(false);
-
-  // const onFinish = async (values) => {
-  //   try {
-  //     setIsSubmitting(true);
-  //     const {data, error} = await addNewCourseMutation ({
-  //       courseData: values,
-  //     });
-  //     if (data) {
-  //       message.success("Course added successfully");
-  //       navigate("/courses")
-  //     } else {
-  //       message.error(error.data);
-  //       setIsSubmitting(false);
-  //     }
-  //   }catch(error) {
-  //     console.error ("Error adding course: ", error)
-  //   }
-  // }
 
   const [addNewCourse] = useAddNewCourseMutation(token);
   const onFinish = async (values) => {
@@ -43,12 +24,9 @@ const AddCoursePage = () => {
       });
       console.log(error);
       if (data) {
-        dispatch(message.success("Course created successfully."));
+        message.success("Course created successfully.");
         navigate("/courses");
-      } else {
-        setIsSubmitting(false);
-        message.error("Course creation failed.");
-      }
+      } 
     } catch (error) {
       console.error("Error adding course:", error);
     }
@@ -63,19 +41,12 @@ const AddCoursePage = () => {
       <Form
         form={form}
         name="course-form"
-        labelCol={{
-          span: 6,
-        }}
-        wrapperCol={{
-          span: 16,
-        }}
         style={{
           width: "800",
         }}
         validateMessages={validateMessages}
         onFinish={onFinish}
         autoComplete="off">
-        {/* <div className="course-form"> */}
         <div className="add-page-header">
           <p className="header">
             <Link to="/courses" className="arrow-icon">
@@ -85,7 +56,6 @@ const AddCoursePage = () => {
           </p>
           <span className="save-button">
             <Button
-              onClick={onFinish}
               htmlType="submit"
               type="primary"
               style={{ width: "100px", height: "40px", borderRadius: "2px" }}

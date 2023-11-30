@@ -25,14 +25,13 @@ const AddExamPage = () => {
         examDurationMinute: parseInt(totalMinutes),
       };
 
-      // console.log(payload);
+      console.log("payload", payload);
       if (!Object.values(values).includes(undefined)) {
         navigate("/exams/addExam/addQuestion", { state: payload });
       }
     } catch (error) {
       console.error("Form validation failed", error);
 
-      // Log specific validation errors
       if (error.errorFields) {
         error.errorFields.forEach((fieldError) => {
           console.error(`Validation error in field ${fieldError.name}`);
@@ -66,7 +65,6 @@ const AddExamPage = () => {
           width: "800",
         }}
         validateMessages={validateMessages}
-        // initialValues={payload}
         onFinish={onFinish}
         autoComplete="off">
         <div className="add-page-header">

@@ -15,6 +15,7 @@ body {
   margin: 40px 0px 0px 31px;
   font-family: "Inter", sans-serif;
   display: flex;
+  padding-left: 20px;
 }
 
 /* ant design table inital state */

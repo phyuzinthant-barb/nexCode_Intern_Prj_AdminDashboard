@@ -33,7 +33,7 @@ const Sidebar = () => {
         <Menu
           theme="dark"
           mode="inline"
-          defaultSelectedKeys={[location.pathname]}
+          defaultSelectedKeys={[location.pathname] || `/stu-dashboard`}
           onClick={handleClick}
           items={[
             {
