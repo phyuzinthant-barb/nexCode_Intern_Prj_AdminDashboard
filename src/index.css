@@ -15,7 +15,6 @@ body {
   margin: 40px 0px 0px 31px;
   font-family: "Inter", sans-serif;
   display: flex;
-  padding-left: 20px;
 }
 
 /* ant design table inital state */
@@ -64,7 +63,7 @@ body {
   line-height: 22px;
   text-align: center;
   font-family: "Inter", sans-serif;
-  margin: 32px;
+  margin: 32px 32px 0px 32px;
 }
 
 /* Searchbox */
@@ -142,6 +141,7 @@ body {
 .top-level {
   display: flex;
   margin-right: 32px;
+  margin-bottom: 24px;
 }
 
 /* card design */
@@ -160,6 +160,6 @@ body {
   border-radius: 2px !important;
 }
 
-:where(.css-dev-only-do-not-override-xu9wm8).ant-modal .ant-modal-footer {
+.form-modal > :where(.css-dev-only-do-not-override-xu9wm8).ant-modal .ant-modal-footer {
   text-align: center;
 }

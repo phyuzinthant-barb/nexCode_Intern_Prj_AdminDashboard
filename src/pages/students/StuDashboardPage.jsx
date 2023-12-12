@@ -47,7 +47,6 @@ const StudentPage = () => {
   };
 
   useEffect(() => {
-    console.log(selectedCourseId);
   }, [selectedCourseId]);
 
   return (

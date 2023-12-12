@@ -19,11 +19,10 @@ const { confirm } = Modal;
 
 const ExamCard = ({ exam, refetch, token }) => {
   const [deleteExamById] = useDeleteExamByIdMutation(token);
-  const [isSwitchOn, setIsSwitchOn] = useState(exam.published);
-  const [initialButtonsShown, setInitialButtonsShown] = useState(true);
-
   const [publishExamMutation] = usePublishExamMutation();
   const [unpublishExamMutation] = useUnpublishExamMutation();
+  const [isSwitchOn, setIsSwitchOn] = useState(exam.published);
+  const [initialButtonsShown, setInitialButtonsShown] = useState(!exam.published);
 
   const handleClick = () => {
     confirm({
@@ -205,11 +204,11 @@ const DisplayExam = () => {
   }, [refetch, token]);
 
   return (
-    <div className="card-design">
+    <div >
       {isLoading ? (
         <p>Loading...</p>
       ) : (
-        <div>
+        <div className="card-design">
           {Array.isArray(exams) && exams.length > 0 ? (
             exams.map((exam) => (
               <ExamCard

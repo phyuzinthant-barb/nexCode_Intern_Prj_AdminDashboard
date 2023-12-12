@@ -26,9 +26,18 @@ const AddCoursePage = () => {
       if (data) {
         message.success("Course created successfully.");
         navigate("/courses");
-      } 
+      } else {
+        message.error("Course is already exist.");
+        setIsSubmitting(false);
+      }
     } catch (error) {
-      console.error("Error adding course:", error);
+      console.error("Error adding student:", error);
+
+      if (error && error.status === 409) {
+        message.error("Course is already exist.");
+      } else {
+        message.error("An error occurred while adding the student.");
+      }
     }
   };
 

@@ -20,6 +20,7 @@ import { logoutAccount } from "../../features/auth/authSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useChangePasswordMutation } from "../../features/auth/user/userApi";
+import { ExclamationCircleOutlined } from '@ant-design/icons';
 
 const { Header } = Layout;
 
@@ -32,13 +33,18 @@ const App = () => {
   const [currentNewPasswordSame, setCurrentNewPasswordSame] = useState(true);
 
   const LogoutModalForm = ({ visible, handleOk, handleCancel }) => (
-    <Modal
-      title="Are you sure to logout?"
-      open={visible}
-      okType="danger"
-      onOk={handleOk}
-      onCancel={handleCancel}
-      centered></Modal>
+    <div className="logoutModalForm" >
+      <Modal
+        title="Are you sure to logout?"
+        showIcon
+        open={visible}
+        okType="danger"
+        onOk={handleOk}
+        onCancel={handleCancel}
+        centered
+        okText="Log Out"
+        icon={<ExclamationCircleOutlined/>}></Modal>
+    </div>
   );
 
   const [logoutModalVisible, setLogoutModalVisible] = useState(false);
@@ -82,7 +88,9 @@ const App = () => {
         onOk={handleOk}
         okText="Save Changes"
         onCancel={handleCancel}
-        cancelButtonProps={{ style: { display: 'none' } }}>
+        title={<div style={{ color: '#002766', fontSize: '20px' }}>Change Password</div>}
+        cancelButtonProps={{ style: { display: "none" } }}
+      >
         <div className="change-password-form">
           <Form
             className="pwd-form"

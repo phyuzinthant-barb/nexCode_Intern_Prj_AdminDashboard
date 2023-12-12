@@ -17,8 +17,10 @@ const SearchCourses = ({ onSearch }) => {
       <Search
         placeholder="Search Course"
         allowClear
-        onSearch={handleSearch}
+        onSearch={onSearch}
         size="medium"
+        enterButton
+        bordered={false}
       />
     </span>
   );

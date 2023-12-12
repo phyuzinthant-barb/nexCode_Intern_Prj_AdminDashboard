@@ -24,8 +24,6 @@ const StudentTable = ({ selectedCourseId, foundStudent }) => {
     refetch: refetchByCourse,
   } = useGetStudentsByCourseIdQuery({ courseId: selectedCourseId });
 
-  console.log("student data", studentsByCourse);
-
   const [deleteStudent] = useDeleteStudentMutation(token);
 
   useEffect(() => {
@@ -135,7 +133,7 @@ const StudentTable = ({ selectedCourseId, foundStudent }) => {
         return (
           <Link
             to={{
-              pathname: `/reports/studentReport/${record.id}`,
+              pathname: `/reports/2/examReport/1/studentReport/${record.id}`,
               state: { ...record },
             }}>
             {text}

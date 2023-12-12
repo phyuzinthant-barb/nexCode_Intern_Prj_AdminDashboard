@@ -27,9 +27,9 @@ const DisplayCourses = () => {
     confirm({
       title: "Are you sure you want to delete this course?",
       icon: <ExclamationCircleOutlined />,
-      okText: "Yes",
+      okText: "Delete",
       okType: "danger",
-      cancelText: "No",
+      cancelText: "Cancel",
       onOk() {
         deleteCourseMutation({ courseId })
           .then(() => {
